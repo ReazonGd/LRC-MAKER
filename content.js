@@ -40,12 +40,19 @@
 
   const table = document.querySelector(".lrc_table_body");
 
-  // thime controler
+  // theme controler
   const themeButton = document.querySelector(".lrc-theme");
   themeButton.addEventListener("click", function () {
     const theme_now = document.body.dataset.mode;
     if (theme_now === "dark") document.body.dataset.mode = "light";
     else document.body.dataset.mode = "dark";
+
+    localStorage.setItem("lrc-theme", document.body.dataset.mode);
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const savedTheme = localStorage.getItem("lrc-theme");
+    if (savedTheme) document.body.dataset.mode = savedTheme;
   });
 
   // interval for updating highlight lyrics
@@ -237,7 +244,7 @@
 
     for (let i = 0; i < lyrics.length; i++) {
       const timeA = convertTimeStringToSecondsInt(getTimeFormat(lyrics[i]));
-      if (timeA < time && !(timeA === 0 && i > 0)) index = i;
+      if (timeA <= time && !(timeA === 0 && i > 0)) index = i;
     }
 
     return index;
@@ -257,7 +264,7 @@
 
   // chage/set lyrics time
   function setTimeLyrics(index, time) {
-    if (lyrics[index - 1] && convertTimeStringToSecondsInt(getTimeFormat(lyrics[index - 1])) === 0 && index !== 0) return;
+    if (index > 1 && lyrics[index - 1] && convertTimeStringToSecondsInt(getTimeFormat(lyrics[index - 1])) === 0) return;
     const formatedTime = timeFormat(time, true);
     const strTime = `[${formatedTime}]`;
     const str = lyrics[index].replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "");
@@ -285,9 +292,12 @@
     document.querySelectorAll(".lrc-tr-table").forEach(function (v) {
       if (parseInt(v.dataset.id) === indexOfCurrentLyrics) {
         if (!v.classList.contains("text-5")) v.classList.add("text-5", "dark:text-1");
-        return;
-      }
-      if (v.classList.contains("text-5")) v.classList.remove("text-5", "dark:text-1");
+      } else v.classList.remove("text-5", "dark:text-1");
+
+      //
+      if (parseInt(v.dataset.id) === lastLyricsSetIndex) {
+        if (!v.querySelector("td:first-child").classList.contains("border-r-4")) v.querySelector("td:first-child").classList.add("border-r-4");
+      } else v.querySelector("td:first-child").classList.remove("border-r-4");
     });
   }
 
@@ -301,14 +311,14 @@
     td1.classList.add("border", "border-slate-600", "p-2", "text-center");
     td1.style.width = "120px";
     td1.innerHTML = time;
-    td1.title = "set waktu";
+    td1.title = getLanguageContext("editor.td.tittle");
 
     // set time click handler
     td1.onclick = function () {
       const currentTime = audioPlayer.currentTime;
       const offset = Number(offsetTime.value);
 
-      setTimeLyrics(id, currentTime + offset);
+      setTimeLyrics(id, Math.max(0, currentTime + offset));
     };
 
     const td2 = document.createElement("td");
@@ -331,6 +341,7 @@
     lyrics.forEach(function (v, i) {
       table.appendChild(create_trTable(i, getTimeFormat(v), v.replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "")));
     });
+    lrc_update();
   }
 
   // get a file context?

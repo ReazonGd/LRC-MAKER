@@ -51,6 +51,7 @@ const language = {
     "save.download": "unduh",
     "alert.empty.lyrics": "Lirik tidak boleh kosong",
     "alert.file_type.not_suport": "Tidak dapat memuat file.",
+    "editor.td.tittle": "ubah waktu",
   },
   //   translated by chatgpt
   en: {
@@ -79,11 +80,12 @@ const language = {
     "save.download": "download",
     "alert.empty.lyrics": "Lyrics cannot be empty",
     "alert.file_type.not_suport": "Cannot load file.",
+    "editor.td.tittle": "set time",
   },
 };
 
-function getLanguageContext(key) {
-  const language_now = languageListBox.dataset.value;
+function getLanguageContext(key, language_now) {
+  if (!language_now) language_now = languageListBox.dataset.value;
   if (!language[language_now]) {
     console.error("laguage : " + language_now + " not found");
     return key;
@@ -95,16 +97,25 @@ function getLanguageContext(key) {
 }
 
 function loadLaguage() {
+  const language_now = languageListBox.dataset.value;
+  if (!language[language_now]) return console.error("laguage : " + language_now + " not found");
+  localStorage.setItem("lrc-lang", language_now);
+
   document.querySelectorAll(".lrc_text").forEach(function (element) {
     if (element.dataset.textkey) {
       const key = element.dataset.textkey.trim();
-      element.innerHTML = getLanguageContext(key);
+      element.innerHTML = getLanguageContext(key, language_now);
     } else {
       const key = element.innerHTML.trim();
       element.dataset.textkey = key;
-      element.innerHTML = getLanguageContext(key);
+      element.innerHTML = getLanguageContext(key, language_now);
     }
   });
 }
 
-loadLaguage();
+document.addEventListener("DOMContentLoaded", function () {
+  const savedLanguageSeleted = localStorage.getItem("lrc-lang");
+  if (savedLanguageSeleted) languageListBox.dataset.value = savedLanguageSeleted;
+
+  loadLaguage();
+});
