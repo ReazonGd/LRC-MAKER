@@ -1,0 +1,31 @@
+{
+  "name": "id",
+  "data": {
+    "greeting.start": "Mari mulai dengan memilih Audio",
+    "select.audio": "Pilih Audio",
+    "greeting.dnd": "atau drag & drop kesini.",
+    "property.form.des": "Semua input selain lirik bisa di kosongi, anda juga dapat mengedit ini nanti",
+    "form.title": "Judul Lagu",
+    "form.artist": "Nama Artis",
+    "form.album": "Judul Album",
+    "form.author": "Nama Pembuat",
+    "form.userName": "Namamu",
+    "form.seletcted.audio": "Audio Terpilih",
+    "form.lyrics": "Lirik",
+    "form.next": "Lanjutkan",
+    "editor.intruction_1": "klik waktu disamping lirik atau tombol",
+    "editor.intruction_2": "untuk mengatur waktu",
+    "editor.lyrics": "Lirik",
+    "editor.time": "Waktu",
+    "save.header": "Simpan & Salin",
+    "save.option": "Simpan sesuai",
+    "save.option.audio": "audio",
+    "save.option.property": "properti",
+    "save.option.custom": "kustom",
+    "save.copy": "salin",
+    "save.download": "unduh",
+    "alert.empty.lyrics": "Lirik tidak boleh kosong",
+    "alert.file_type.not_suport": "Tidak dapat memuat file.",
+    "editor.td.tittle": "ubah waktu"
+  }
+}

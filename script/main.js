@@ -1,5 +1,5 @@
 (function (ex) {
-  const version = "1.1";
+  const version = "1.1.4";
   try {
     ex(version);
   } catch (error) {
@@ -56,6 +56,7 @@
   });
 
   // interval for updating highlight lyrics
+  // TODO: make this better, its may cause some lag?
   const interval = setInterval(function () {
     if (!(lyrics.length && lyrics.length > 0 && audioPlayer.src && !audioPlayer.paused)) return;
     lrc_update();
@@ -379,6 +380,7 @@
     a.click();
   });
 
+  //   copy handler
   copyButton.addEventListener("click", function () {
     const get_lrc_contex = get_lrc();
 
