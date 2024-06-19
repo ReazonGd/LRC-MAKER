@@ -15,8 +15,6 @@ function getLang_file(id) {
     if (!(languages_module_path[id] && typeof id === "string")) lang_path = languages_module_path["id"];
     else lang_path = languages_module_path[id];
 
-    console.log(lang_path, id);
-
     fetch(lang_path)
       .then(function (e) {
         e.json().then(function ({ data }) {
@@ -68,14 +66,11 @@ function loadLanguageFromPage() {
     const selectedLanguageID = event.target.dataset.name;
     if (!selectedLanguageID) return;
 
-    console.log(selectedLanguageID);
-
     languageListBox.querySelectorAll("li").forEach(function (v) {
-      if (v.dataset.name === selectedLanguageID) {
-        if (!v.classList.contains("bg-4")) v.classList.add("bg-4", "dark:bg-1");
-      } else {
-        if (v.classList.contains("bg-4")) v.classList.remove("bg-4", "dark:bg-1");
-      }
+      const isSelected = v.dataset.name === selectedLanguageID;
+
+      v.classList.toggle("bg-4", isSelected);
+      v.classList.toggle("dark:bg-1", isSelected);
     });
 
     document.querySelector(".lrc-lang-display").innerHTML = selectedLanguageID.toUpperCase();

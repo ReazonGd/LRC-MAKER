@@ -86,7 +86,7 @@
     const file = event.dataTransfer.files[0];
     if (file && file.type.startsWith("audio/")) {
       loadAudio(file);
-    } else alert(getLanguageContext("alert.file_type.not_suport"));
+    } else alert(getLangText("alert.file_type.not_suport"));
   });
 
   // file click handler
@@ -99,7 +99,7 @@
     const file = event.target.files[0];
     if (file && file.type.startsWith("audio/")) {
       loadAudio(file);
-    } else alert(getLanguageContext("alert.file_type.not_suport"));
+    } else alert(getLangText("alert.file_type.not_suport"));
   });
 
   //  TODO: make a preload audio.
@@ -141,7 +141,7 @@
 
     if (pageIndex === 2) {
       initLyrics();
-      drawTable(true);
+      drawTable();
     }
 
     window.scrollTo({
@@ -283,7 +283,9 @@
   stopwatch.addEventListener("click", function () {
     if (lastLyricsSetIndex >= lyrics.length - 1) return;
     const currentTime = audioPlayer.currentTime;
-    setTimeLyrics(lastLyricsSetIndex + 1, currentTime);
+    const offset = Number(offsetTime.value);
+
+    setTimeLyrics(lastLyricsSetIndex + 1, Math.max(0, offset + currentTime));
   });
 
   // updating higlight lyrics
@@ -291,14 +293,15 @@
     const indexOfCurrentLyrics = findCurrentLyricsIndex(audioPlayer.currentTime);
 
     document.querySelectorAll(".lrc-tr-table").forEach(function (v) {
-      if (parseInt(v.dataset.id) === indexOfCurrentLyrics) {
-        if (!v.classList.contains("text-5")) v.classList.add("text-5", "dark:text-1");
-      } else v.classList.remove("text-5", "dark:text-1");
+      const id = parseInt(v.dataset.id);
+      const isCurrentTime = id === indexOfCurrentLyrics;
+      v.classList.toggle("text-5", isCurrentTime);
+      v.classList.toggle("dark:text-1", isCurrentTime);
 
       //
-      if (parseInt(v.dataset.id) === lastLyricsSetIndex) {
-        if (!v.querySelector("td:first-child").classList.contains("border-r-4")) v.querySelector("td:first-child").classList.add("border-r-4");
-      } else v.querySelector("td:first-child").classList.remove("border-r-4");
+      const isSelectedBefore = id === lastLyricsSetIndex;
+      const timeElement = v.querySelector("td:first-child");
+      timeElement.classList.toggle("border-r-4", isSelectedBefore);
     });
   }
 
@@ -312,7 +315,7 @@
     td1.classList.add("border", "border-slate-600", "p-2", "text-center");
     td1.style.width = "120px";
     td1.innerHTML = time;
-    td1.title = getLanguageContext("editor.td.tittle");
+    td1.title = getLangText("editor.td.tittle");
 
     // set time click handler
     td1.onclick = function () {
@@ -335,7 +338,7 @@
   function drawTable() {
     if (lyrics.length < 1) {
       gotoPage(1);
-      alert(getLanguageContext("alert.empty.lyrics"));
+      alert(getLangText("alert.empty.lyrics"));
       return;
     }
     table.innerHTML = "";
