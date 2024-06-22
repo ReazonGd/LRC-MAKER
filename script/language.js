@@ -37,6 +37,7 @@ function getLangText(key, language_id) {
 function loadLanguageFromPage() {
   const language_id = languageListBox.dataset.value;
   localStorage.setItem("lrc-lang", language_id);
+  // console.log(language_id);
 
   document.querySelectorAll(".lrc_text").forEach(function (element) {
     const key = element.dataset.textkey;
@@ -46,13 +47,34 @@ function loadLanguageFromPage() {
     element.dataset.textkey = new_key;
     element.innerHTML = getLangText(new_key, language_id);
   });
+
+  updateLanguageListBox(language_id);
+}
+
+function updateLanguageListBox(id) {
+  languageListBox.querySelectorAll("li").forEach(function (v) {
+    const isSelected = v.dataset.name === id;
+
+    v.classList.toggle("bg-4", isSelected);
+    v.classList.toggle("dark:bg-1", isSelected);
+  });
+
+  document.querySelector(".lrc-lang-display").innerHTML = id.toUpperCase();
+  popup_loading.remove("language-loading");
 }
 
 (function () {
   const savedLanguageSeleted = localStorage.getItem("lrc-lang");
   if (savedLanguageSeleted) languageListBox.dataset.value = savedLanguageSeleted;
 
-  getLang_file(savedLanguageSeleted).then(loadLanguageFromPage);
+  getLang_file(savedLanguageSeleted).then(function () {
+    loadLanguageFromPage();
+    const welkomed = localStorage.getItem("lrc-welcome");
+    if (!welkomed) {
+      // localStorage.setItem("lrc-welcome", "udah");
+      // createPopup(getLangText("wellome.title"), getLangText("wellome.desc"));
+    }
+  });
 
   changeLanguageButton.addEventListener("click", function () {
     const closed = languageListBox.classList.contains("hidden");
@@ -62,19 +84,13 @@ function loadLanguageFromPage() {
   });
 
   languageListBox.addEventListener("click", function (event) {
+    popup_loading.add("language-loading");
+
     if (Object.keys(language_module).length < 1) return;
     const selectedLanguageID = event.target.dataset.name;
     if (!selectedLanguageID) return;
 
-    languageListBox.querySelectorAll("li").forEach(function (v) {
-      const isSelected = v.dataset.name === selectedLanguageID;
-
-      v.classList.toggle("bg-4", isSelected);
-      v.classList.toggle("dark:bg-1", isSelected);
-    });
-
-    document.querySelector(".lrc-lang-display").innerHTML = selectedLanguageID.toUpperCase();
-
+    this.dataset.value = selectedLanguageID;
     getLang_file(selectedLanguageID).then(loadLanguageFromPage);
   });
 })();

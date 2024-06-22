@@ -1,5 +1,5 @@
 (function (ex) {
-  const version = "1.1.4";
+  const version = "1.2.1";
   try {
     ex(version);
   } catch (error) {
@@ -20,6 +20,7 @@
   const timeRange = document.querySelector("#time-range");
   const volumeRange = document.querySelector("#volume-range");
   const offsetTime = document.querySelector("#offset");
+  const playbackSpeedOption = document.querySelector("#audio-playback");
 
   let lyrics = [];
   let file_name = "";
@@ -38,6 +39,7 @@
   const saveButton = document.querySelector("#save");
   const copyButton = document.querySelector("#copy-file");
 
+  const view_contaier = document.querySelector("#view-conteiner");
   const table = document.querySelector(".lrc_table_body");
 
   // theme controler
@@ -59,7 +61,8 @@
   // TODO: make this better, its may cause some lag?
   const interval = setInterval(function () {
     if (!(lyrics.length && lyrics.length > 0 && audioPlayer.src && !audioPlayer.paused)) return;
-    lrc_update();
+    if (mainElement.dataset.id == "2") lrc_update();
+    else if (mainElement.dataset.id == "4") updateViewDisplay();
   }, 100);
 
   // slide progress handler
@@ -86,7 +89,7 @@
     const file = event.dataTransfer.files[0];
     if (file && file.type.startsWith("audio/")) {
       loadAudio(file);
-    } else alert(getLangText("alert.file_type.not_suport"));
+    } else createPopup(getLangText("alert.common.title"), getLangText("alert.file_type.not_suport"));
   });
 
   // file click handler
@@ -99,49 +102,83 @@
     const file = event.target.files[0];
     if (file && file.type.startsWith("audio/")) {
       loadAudio(file);
-    } else alert(getLangText("alert.file_type.not_suport"));
+    } else createPopup(getLangText("alert.common.title"), getLangText("alert.file_type.not_suport"));
   });
 
-  //  TODO: make a preload audio.
+  //  TODO: make a better preload audio.
   function loadAudio(file) {
+    popup_loading.add("audio-preload");
     const url = URL.createObjectURL(file);
     audioPlayer.src = url;
     audioPlayer.preload = "auto";
-    audioPlayer.onloadeddata = function () {
-      gotoPage(1);
-      document.querySelectorAll(`.lrc-name`).forEach(function (v) {
-        v.innerHTML = file.name;
-      });
-
-      file_name = file.name.split(".")[0];
-
-      if (document.querySelectorAll(`input[name="FileNameMode"][id="filenamemode-title"]`) || (lrc_artist.value && lrc_title.value)) {
-        lrc_fileName.value = file_name;
-      }
-
-      document.querySelector(".endTime").innerHTML = timeFormat(audioPlayer.duration);
-      timeRange.max = audioPlayer.duration;
-    };
     audioPlayer.load();
+    audioPlayer.addEventListener(
+      "canplaythrough",
+      function () {
+        audioPlayer.play();
+        audioPlayer.addEventListener(
+          "timeupdate",
+          function (event) {
+            audioPlayer.pause();
+            gotoPage(1);
+            document.querySelectorAll(`.lrc-name`).forEach(function (v) {
+              v.innerHTML = file.name;
+            });
+
+            file_name = file.name.split(".");
+            file_name.pop();
+            file_name = file_name.join(".");
+
+            if (document.querySelectorAll(`input[name="FileNameMode"][id="filenamemode-title"]`) || (lrc_artist.value && lrc_title.value)) {
+              lrc_fileName.value = file_name;
+            }
+
+            lastLyricsSetIndex = -1;
+            // console.log(audioPlayer.duration);
+            document.querySelector(".endTime").innerHTML = timeFormat(audioPlayer.duration);
+            timeRange.max = audioPlayer.duration;
+
+            audioPlayer.currentTime = 0;
+
+            popup_loading.remove("audio-preload");
+          },
+          { once: true }
+        );
+      },
+      { once: true }
+    );
   }
 
   // chage the selection page
   const gotoPage = function (pageIndex) {
-    const pages = ["greeting", "property", "lyrics-editor", "save-page"];
+    const pages = ["greeting", "property", "lyrics-editor", "save-page", "view-page"];
 
     pages.forEach((v, i) => {
       if (i === pageIndex) document.getElementById(v).style.display = "flex";
       else document.getElementById(v).style.display = "none";
     });
+    mainElement.dataset.id = pageIndex;
 
     document.querySelectorAll(`.lrc-controler-mode`).forEach(function (v) {
-      if (pageIndex === 2) v.style.display = "flex";
-      else v.style.display = "none";
+      v.classList.toggle("hidden", pageIndex !== 2);
+      v.classList.toggle("flex", pageIndex === 2);
     });
+
+    const lrc_view_mode = document.querySelector(".lrc-view-mode");
+    lrc_view_mode.classList.toggle("hidden", pageIndex !== 4);
+    lrc_view_mode.classList.toggle("flex", pageIndex === 4);
 
     if (pageIndex === 2) {
       initLyrics();
       drawTable();
+    } else if (pageIndex == 3) {
+      document.querySelectorAll(`input[name="FileNameMode"]`).forEach(function (v) {
+        if (!v.checked) return;
+        updateFileNameInput(v.id);
+      });
+    } else if (pageIndex == 4) {
+      renderViewLyrics();
+      updateViewDisplay();
     }
 
     window.scrollTo({
@@ -222,13 +259,19 @@
 
   // forward handler
   forwardButton.addEventListener("click", function () {
-    const crnt = audioPlayer.currentTime + 15;
-    if (crnt < audioPlayer.duration) audioPlayer.currentTime = crnt;
-    else audioPlayer.currentTime = audioPlayer.duration;
+    audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 15);
+  });
+
+  // audio speed
+  playbackSpeedOption.addEventListener("click", function (event) {
+    const speedSelected = parseFloat(this.value);
+
+    audioPlayer.playbackRate = speedSelected;
   });
 
   //  returning from mm:ss.xx string into int number
   function convertTimeStringToSecondsInt(timeString) {
+    if (typeof timeString === "number") return timeString;
     const [minutes, rest] = timeString.split(":");
     const [seconds, milliseconds] = rest.split(".");
     return parseInt(minutes) * 60 + parseInt(seconds) + parseInt(milliseconds) / 100;
@@ -275,6 +318,7 @@
 
     lastLyricsSetIndex = index;
     document.querySelector(`.lrc-tr-table[data-id="${index}"] td:first-child`).innerHTML = formatedTime;
+    document.querySelector(`.lrc-tr-table[data-id="${index}"]`).dataset.time = time;
     lrc_update();
     return formatedTime;
   }
@@ -285,8 +329,43 @@
     const currentTime = audioPlayer.currentTime;
     const offset = Number(offsetTime.value);
 
-    setTimeLyrics(lastLyricsSetIndex + 1, Math.max(0, offset + currentTime));
+    setTimeLyrics(lastLyricsSetIndex + 1, Math.min(audioPlayer.duration, Math.max(0, currentTime + offset)));
   });
+
+  function renderViewLyrics() {
+    view_contaier.innerHTML = '<span class="block h-[30vh]"></span>';
+    lyrics.forEach(function (lyric, id) {
+      const str = lyric.replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "");
+
+      const lyicsElement = document.createElement("h1");
+      lyicsElement.classList.add("text-2xl", "text-5", "dark:text-white", "view-display-text", "opacity-[50%]", "lrc-lyrics-display-text");
+      lyicsElement.dataset.id = id;
+      lyicsElement.innerText = str;
+
+      view_contaier.appendChild(lyicsElement);
+    });
+    view_contaier.innerHTML += '<span class="block h-[30vh]"></span>';
+  }
+
+  function updateViewDisplay() {
+    const currentLyricsIndex = findCurrentLyricsIndex(audioPlayer.currentTime) || 0;
+    const lastHightLighted = view_contaier.dataset.id;
+
+    if (lastHightLighted !== currentLyricsIndex) {
+      const currentElement = document.querySelector(`.lrc-lyrics-display-text[data-id='${currentLyricsIndex}']`);
+      view_contaier.dataset.id = currentLyricsIndex;
+      // smoothScrollTo(view_contaier, currentElement.offsetTop - mainElement.clientHeight / 2, 200);
+      view_contaier.scrollTo({
+        top: currentElement.offsetTop - mainElement.clientHeight / 2,
+        behavior: "instant",
+      });
+
+      view_contaier.childNodes.forEach(function (val) {
+        if (!val.dataset.id) return;
+        val.classList.toggle("opacity-[50%]", parseInt(val.dataset.id) !== currentLyricsIndex);
+      });
+    }
+  }
 
   // updating higlight lyrics
   function lrc_update() {
@@ -310,9 +389,10 @@
     const tr = document.createElement("tr");
     tr.classList.add("dark:odd:bg-1/10", "dark:even:bg-3/10", "lrc-tr-table", "odd:bg-2/10", "even:bg-4/10");
     tr.dataset.id = id;
+    tr.dataset.time = convertTimeStringToSecondsInt(time);
 
     const td1 = document.createElement("td");
-    td1.classList.add("border", "border-slate-600", "p-2", "text-center");
+    td1.classList.add("border", "border-slate-600", "p-2", "text-center", "cursor-pointer");
     td1.style.width = "120px";
     td1.innerHTML = time;
     td1.title = getLangText("editor.td.tittle");
@@ -322,12 +402,18 @@
       const currentTime = audioPlayer.currentTime;
       const offset = Number(offsetTime.value);
 
-      setTimeLyrics(id, Math.max(0, currentTime + offset));
+      setTimeLyrics(id, Math.min(audioPlayer.duration, Math.max(0, currentTime + offset)));
     };
 
     const td2 = document.createElement("td");
     td2.innerHTML = text;
-    td2.classList.add("border", "border-slate-600", "p-2");
+    td2.classList.add("border", "border-slate-600", "p-2", "cursor-pointer");
+    td2.addEventListener("click", function () {
+      const lyicsTime = parseFloat(this.parentElement.dataset.time);
+
+      // console.log(time, lyicsTime);
+      audioPlayer.currentTime = lyicsTime;
+    });
 
     tr.appendChild(td1);
     tr.appendChild(td2);
@@ -338,7 +424,7 @@
   function drawTable() {
     if (lyrics.length < 1) {
       gotoPage(1);
-      alert(getLangText("alert.empty.lyrics"));
+      createPopup(getLangText("alert.common.title"), getLangText("alert.empty.lyrics"));
       return;
     }
     table.innerHTML = "";
@@ -394,38 +480,83 @@
       .writeText(get_lrc_contex)
       .then(() => {
         copyButton.style.opacity = 1;
+        createPopup(getLangText("alert.copied"), getLangText("alert.copied.msg"));
       })
       .catch((err) => {
         copyButton.style.opacity = 1;
         console.error("Could not copy text: ", err);
+        createPopup(getLangText("alert.copied.failed"), getLangText("alert.copied.failed.msg"));
       });
   });
 
   lrc_fileName.addEventListener("input", function () {
     this.dataset.temp = this.value;
   });
+
+  function updateFileNameInput(id) {
+    const title = lrc_title.value;
+    const artist = lrc_artist.value;
+    const fileName = artist && title ? `${artist} - ${title}` : file_name;
+
+    switch (id) {
+      case "filenamemode-audioname":
+        lrc_fileName.value = file_name;
+        lrc_fileName.disabled = true;
+        break;
+      case "filenamemode-title":
+        lrc_fileName.value = fileName;
+        lrc_fileName.disabled = true;
+        break;
+      case "filenamemode-custom":
+        lrc_fileName.value = lrc_fileName.dataset.temp;
+        lrc_fileName.disabled = false;
+        break;
+      default:
+        // console.log(id);
+        break;
+    }
+  }
+
   // name file change
   document.querySelectorAll(`input[name="FileNameMode"]`).forEach(function (v) {
     v.addEventListener("click", function () {
       if (!this.checked) return;
-      const title = lrc_title.value;
-      const artist = lrc_artist.value;
-      const fileName = artist && title ? `${artist} - ${title}` : file_name;
-
-      switch (this.id) {
-        case "filenamemode-audioname":
-          lrc_fileName.value = file_name;
-          lrc_fileName.disabled = true;
-          break;
-        case "filenamemode-title":
-          lrc_fileName.value = fileName;
-          lrc_fileName.disabled = true;
-          break;
-        case "filenamemode-custom":
-          lrc_fileName.value = lrc_fileName.dataset.temp;
-          lrc_fileName.disabled = false;
-          break;
-      }
+      updateFileNameInput(this.id);
     });
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (mainElement.dataset.id === 0) return;
+    const target = event.target;
+    if (["input", "textarea", "button"].includes(target.tagName.toLowerCase())) return;
+    // console.log(target.tagName);
+
+    switch (event.key) {
+      case " ":
+        event.preventDefault();
+        playAndPause();
+        break;
+      case "ArrowRight":
+        audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 5);
+        break;
+      case "ArrowLeft":
+        audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 5);
+        break;
+      case "Enter":
+        stopwatch.click();
+        break;
+      case "e":
+        gotoPage(1);
+        break;
+      case "t":
+        gotoPage(2);
+        break;
+      case "s":
+        gotoPage(3);
+        break;
+      case "v":
+        gotoPage(4);
+        break;
+    }
   });
 });

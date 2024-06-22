@@ -26,6 +26,15 @@
     "save.download": "unduh",
     "alert.empty.lyrics": "Lirik tidak boleh kosong",
     "alert.file_type.not_suport": "Tidak dapat memuat file.",
-    "editor.td.tittle": "ubah waktu"
+    "editor.td.tittle": "ubah waktu",
+    "viewer.back": "kembali",
+    "wellome.title": "Halo cuy",
+    "wellome.desc": "Selamat datang. makasih udah mampir.",
+    "button.ok": "oke",
+    "alert.copied": "Tersalin!",
+    "alert.copied.msg": "Berhasil menyalin lirik!",
+    "alert.copied.failed": "Gagal Menyalin",
+    "alert.copied.failed.msg": "sepertinya terjadi sesuatu..",
+    "alert.common.title": "Peringatan!"
   }
 }

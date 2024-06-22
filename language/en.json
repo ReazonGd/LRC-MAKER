@@ -1,10 +1,10 @@
 {
   "name": "en",
   "data": {
-    "greeting.start": "Let's start by selecting Audio",
+    "greeting.start": "Let's start by selecting an Audio",
     "select.audio": "Select Audio",
     "greeting.dnd": "or drag & drop here.",
-    "property.form.des": "All inputs except lyrics can be left blank, you can also edit this later",
+    "property.form.des": "All inputs except for lyrics can be left empty, you can also edit this later",
     "form.title": "Song Title",
     "form.artist": "Artist Name",
     "form.album": "Album Title",
@@ -12,8 +12,8 @@
     "form.userName": "Your Name",
     "form.seletcted.audio": "Selected Audio",
     "form.lyrics": "Lyrics",
-    "form.next": "Continue",
-    "editor.intruction_1": "click the time next to the lyrics or the button",
+    "form.next": "Next",
+    "editor.intruction_1": "click the time beside the lyrics or the button",
     "editor.intruction_2": "to set the time",
     "editor.lyrics": "Lyrics",
     "editor.time": "Time",
@@ -26,6 +26,15 @@
     "save.download": "download",
     "alert.empty.lyrics": "Lyrics cannot be empty",
     "alert.file_type.not_suport": "Cannot load file.",
-    "editor.td.tittle": "set time"
-  }
+    "editor.td.tittle": "change time",
+    "viewer.back": "back",
+    "wellome.title": "Hello dude",
+    "wellome.desc": "Welcome to my lrc maker. There might be some issues, maybe a bit of lag. I don't know why. And that's it :v",
+    "button.ok": "ok",
+    "alert.copied": "Copied!",
+    "alert.copied.msg": "Successfully copied lyrics!",
+    "alert.copied.failed": "Failed to Copy",
+    "alert.copied.failed.msg": "something seems to have happened..",
+    "alert.common.title": "Warning!"
+  } 
 }
