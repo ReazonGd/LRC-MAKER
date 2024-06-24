@@ -31,9 +31,14 @@ function createPopup(title, innerHTML) {
 
 const popup_loading = {
   element: document.querySelector("#popup-loading"),
+  aset: ["/aset/aset1.gif", "/aset/aset2.gif"],
   queue: [],
   add: function (initial) {
+    if (this.queue.includes(initial)) return;
     this.queue.push(initial);
+
+    const img = this.element.querySelector("img");
+    img.src = this.aset[Math.random() >= 0.5 ? 0 : 1];
     this.element.classList.toggle("hidden", false);
   },
   remove: function (initial) {
@@ -42,6 +47,6 @@ const popup_loading = {
     });
 
     if (!this.queue.length) this.element.classList.toggle("hidden", true);
-    console.log(this.queue);
+    // console.log(this.queue);
   },
 };

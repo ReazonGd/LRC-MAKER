@@ -35,6 +35,8 @@
     "alert.copied.msg": "Berhasil menyalin lirik!",
     "alert.copied.failed": "Gagal Menyalin",
     "alert.copied.failed.msg": "sepertinya terjadi sesuatu..",
-    "alert.common.title": "Peringatan!"
+    "alert.common.title": "sebuah informasi",
+    "form.export.text": "Punya file .lrc?",
+    "form.export": "export file lrc"
   }
 }

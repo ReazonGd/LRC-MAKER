@@ -1,5 +1,5 @@
 (function (ex) {
-  const version = "1.2.1";
+  const version = "1.2.4";
   try {
     ex(version);
   } catch (error) {
@@ -25,6 +25,8 @@
   let lyrics = [];
   let file_name = "";
   let lastLyricsSetIndex = -1;
+  const exportLRCfile = document.querySelector("#lrcFileInput");
+  const exportLRCfileButton = document.querySelector(".lrc_export_button");
 
   // audio property
   const lrc_title = document.querySelector("#title");
@@ -42,6 +44,8 @@
   const view_contaier = document.querySelector("#view-conteiner");
   const table = document.querySelector(".lrc_table_body");
 
+  const jsmediatags = window.jsmediatags;
+
   // theme controler
   const themeButton = document.querySelector(".lrc-theme");
   themeButton.addEventListener("click", function () {
@@ -50,6 +54,49 @@
     else document.body.dataset.mode = "dark";
 
     localStorage.setItem("lrc-theme", document.body.dataset.mode);
+  });
+
+  exportLRCfileButton.addEventListener("click", function () {
+    popup_loading.add("export_lrc_file");
+    exportLRCfile.click();
+  });
+  exportLRCfile.addEventListener("change", function (event) {
+    popup_loading.add("export_lrc_file");
+
+    const file = event.target.files[0];
+    if (file && (file.name.endsWith(".lrc") || file.name.endsWith(".txt"))) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const content = e.target.result;
+        // console.log(content); // Log the content to the console
+
+        let arr_lyrics = content.split("\n");
+        arr_lyrics = arr_lyrics.filter((v) => v);
+
+        lyrics = [];
+
+        const getValAttr = (str) => str.split(":").slice(1).join(":");
+
+        arr_lyrics.forEach((v, i) => {
+          const att = getLrcAttribut(v);
+
+          if (att.startsWith("ti:")) lrc_title.value = getValAttr(att);
+          else if (att.startsWith("ar:")) lrc_artist.value = getValAttr(att);
+          else if (att.startsWith("al:")) lrc_album.value = getValAttr(att);
+          else if (att.startsWith("au:")) lrc_author.value = getValAttr(att);
+          else if (att.startsWith("by:")) lrc_userName.value = getValAttr(att);
+          else if (!isNaN(convertTimeStringToSecondsInt(att))) lyrics.push(v);
+        });
+
+        lrc_lyrics.value = lyrics.join("\n");
+        popup_loading.remove("export_lrc_file");
+      };
+      reader.readAsText(file);
+    } else {
+      popup_loading.remove("export_lrc_file");
+
+      createPopup(getLangText("alert.common.title"), getLangText("alert.file_type.not_suport"));
+    }
   });
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -115,11 +162,13 @@
     audioPlayer.addEventListener(
       "canplaythrough",
       function () {
+        audioPlayer.volume = 0;
         audioPlayer.play();
         audioPlayer.addEventListener(
           "timeupdate",
           function (event) {
             audioPlayer.pause();
+            audioPlayer.volume = +volumeRange.value;
             gotoPage(1);
             document.querySelectorAll(`.lrc-name`).forEach(function (v) {
               v.innerHTML = file.name;
@@ -140,13 +189,32 @@
 
             audioPlayer.currentTime = 0;
 
-            popup_loading.remove("audio-preload");
+            loadedMetadata(file).then((result) => {
+              if (result.tags.title) lrc_title.value = result.tags.title;
+              if (result.tags.album) lrc_album.value = result.tags.album;
+              if (result.tags.artist) lrc_artist.value = result.tags.artist;
+              console.log(result);
+              popup_loading.remove("audio-preload");
+            });
           },
           { once: true }
         );
       },
       { once: true }
     );
+  }
+
+  function loadedMetadata(blob) {
+    return new Promise((resolve, reject) => {
+      jsmediatags.read(blob, {
+        onSuccess: function (tag) {
+          resolve(tag);
+        },
+        onError: function (error) {
+          reject(error);
+        },
+      });
+    });
   }
 
   // chage the selection page
@@ -272,13 +340,14 @@
   //  returning from mm:ss.xx string into int number
   function convertTimeStringToSecondsInt(timeString) {
     if (typeof timeString === "number") return timeString;
+    if (!timeString.match(/\d{1,3}:\d{1,3}\.\d{1,3}/)) return NaN;
     const [minutes, rest] = timeString.split(":");
     const [seconds, milliseconds] = rest.split(".");
     return parseInt(minutes) * 60 + parseInt(seconds) + parseInt(milliseconds) / 100;
   }
 
   // get timme format from lyrics
-  function getTimeFormat(str) {
+  function getLrcAttribut(str) {
     return str.substring(str.indexOf("[") + 1, str.indexOf("]")).trim();
   }
 
@@ -287,7 +356,7 @@
     let index = null;
 
     for (let i = 0; i < lyrics.length; i++) {
-      const timeA = convertTimeStringToSecondsInt(getTimeFormat(lyrics[i]));
+      const timeA = convertTimeStringToSecondsInt(getLrcAttribut(lyrics[i]));
       if (timeA <= time && !(timeA === 0 && i > 0)) index = i;
     }
 
@@ -308,7 +377,7 @@
 
   // chage/set lyrics time
   function setTimeLyrics(index, time) {
-    if (index > 1 && lyrics[index - 1] && convertTimeStringToSecondsInt(getTimeFormat(lyrics[index - 1])) === 0) return;
+    if (index > 1 && lyrics[index - 1] && convertTimeStringToSecondsInt(getLrcAttribut(lyrics[index - 1])) === 0) return;
     const formatedTime = timeFormat(time, true);
     const strTime = `[${formatedTime}]`;
     const str = lyrics[index].replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "");
@@ -429,7 +498,7 @@
     }
     table.innerHTML = "";
     lyrics.forEach(function (v, i) {
-      table.appendChild(create_trTable(i, getTimeFormat(v), v.replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "")));
+      table.appendChild(create_trTable(i, getLrcAttribut(v), v.replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "")));
     });
     lrc_update();
   }

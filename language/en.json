@@ -35,6 +35,8 @@
     "alert.copied.msg": "Successfully copied lyrics!",
     "alert.copied.failed": "Failed to Copy",
     "alert.copied.failed.msg": "something seems to have happened..",
-    "alert.common.title": "Warning!"
-  } 
+    "alert.common.title": "Some information!",
+    "form.export.text": "Have a .lrc file?",
+    "form.export": "click to export"
+  }
 }

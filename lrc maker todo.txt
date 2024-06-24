@@ -1,19 +1,19 @@
 lyrics maker todo:
 
-CLEAR | TODO:								                                                      			| 	Clear AT
-					
-  N   | make: pop up modal								                                            	| 22 jun 24*
-  N   | make: how to page (popup)								                                        |
-  N   | make: loading										                                                | 22 jun 24*
-  N   | make: auto filter -> "[text]", " " (space/blank)		                       			|
-  N   | make: import form for lyrics file					                                   		|
-  O   | make: add key short                                                             | on going*
-  N   | make: improve a view page       					                                   		| 21 jun 24*
-  Y   | make: view page. 								                                              	| 20 jun 24
-  Y   | make: audio playback settings -> dropdown 		                          				| 20 jun 24
-  Y   | make: set current time when the lyrics clicked 			                      			| 20 jun 24
-  Y   | fix: lang label when first load								                                  | 20 jun 24
-  Y   | fix: name selector when the audio change, td: make it check when change page.		| 20 jun 24
-  Y   | check: stopwatch function handler -> when its on last lyrics		            		| 20 jun 24
+CLEAR | TODO:								                                                      			
+				
+  Y   | make: pop up modal								                                            	
+  N   | make: how to page (popup)								                                        
+  Y   | make: loading										                                                
+  N   | make: auto filter -> "[text]", " " (space/blank)		                       			
+  Y   | make: import form for lyrics file					                                   		
+  O   | make: add key short                                                             
+  Y   | make: improve a view page       					                                   		
+  Y   | make: view page. 								                                              	
+  Y   | make: audio playback settings -> dropdown 		                          				
+  Y   | make: set current time when the lyrics clicked 			                      			
+  Y   | fix: lang label when first load								                                  
+  Y   | fix: name selector when the audio change, td: make it check when change page.		
+  Y   | check: stopwatch function handler -> when its on last lyrics		            		
 
 
