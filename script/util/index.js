@@ -35,7 +35,7 @@ export function createPopup(title, innerHTML) {
 
 export const popup_loading = {
   element: document.querySelector("#popup-loading"),
-  aset: ["/aset/aset1.gif", "/aset/aset2.gif"],
+  aset: ["/asset/aset1.gif", "/asset/aset2.gif"],
   modal: (id, img_src) => `<div data-loadname="${id}" class="max-w-80 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[99] rounded-lg bg-white dark:bg-5 rounded-lg p-5 flex flex-col items-center">
         <img src="${img_src}" class="w-40 h-40" alt="loading" />
         <br />
