@@ -1,11 +1,6 @@
-// import { defineConfig } from "vite";
+import { defineConfig } from "vite";
 import { copy } from "vite-plugin-copy";
 
-export default {
-  plugins: [
-    copy([
-      { src: "./language/", dest: "./dist/" },
-      { src: "./asset-image/", dest: "./dist/" },
-    ]),
-  ],
-};
+export default defineConfig({
+  plugins: [copy([{ src: "./asset-image/", dest: "./dist/" }]), copy([{ src: "./language/", dest: "./dist/" }])],
+});
