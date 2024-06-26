@@ -403,15 +403,7 @@
     <!-- .popup container -->
 
     <!-- loading -->
-    <div id="popup-loading" class="before:content-[''] before:bg-black/30 before:fixed before:inset-0 before:w-full before:h-full before:z-[90]">
-      <!-- modal -->
-      <div class="max-w-80 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[99] rounded-lg bg-white dark:bg-5 rounded-lg p-5 flex flex-col items-center">
-        <img src="/aset/aset1.gif" class="w-40 h-40" alt="loading" />
-        <br />
-        <p>loading....</p>
-      </div>
-      <!-- .modal -->
-    </div>
+    <div id="popup-loading" class="before:content-[''] before:bg-black/30 before:fixed before:inset-0 before:w-full before:h-full before:z-[90]"></div>
     <!-- .loading -->
 
     <div id="lrc">
@@ -419,16 +411,20 @@
       <input type="file" id="fileInput" accept="audio/*" hidden />
       <audio id="audioPlayer" hidden></audio>
       <input type="file" id="lrcFileInput" hidden />
+      <input type="text" name="file_name" id="file_name" hidden />
+      <input type="number" name="last-lyrics-set-index" id="last-lyrics-set-index" hidden />
       <!-- .file input -->
     </div>
 
     <!-- script -->
     <!-- loaded metadata -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
-
+    <!--
+      
     <script src="/script/util.js"></script>
     <script src="/script/language.js"></script>
-    <script src="/script/main.js"></script>
+    <script src="/script/main.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+    <script type="module" src="script/main.js"></script>
     <!-- script -->
   </body>
 </html>

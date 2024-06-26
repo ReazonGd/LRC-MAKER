@@ -1,7 +1,8 @@
-const changeLanguageButton = document.querySelector("#lang-btn");
-const languageListBox = document.querySelector("#lang-list");
+import { createPopup, getLangText, popup_loading } from "./util";
+import { changeLanguageButton, languageListBox } from "./variable";
 
-let language_module = {};
+window.language_module = {};
+// let window.language_module = {};
 const languages_module_path = {
   id: "/language/id.json",
   en: "/language/en.json", // translated by chatgpt
@@ -18,7 +19,7 @@ function getLang_file(id) {
     fetch(lang_path)
       .then(function (e) {
         e.json().then(function ({ data }) {
-          language_module = data;
+          window.language_module = data;
           resolve();
         });
       })
@@ -26,13 +27,13 @@ function getLang_file(id) {
   });
 }
 
-//
-function getLangText(key, language_id) {
-  if (Object.keys(language_module).length < 1) return;
-  if (!language_id) language_id = languageListBox.dataset.value;
-  if (!language_module[key]) return key;
-  return language_module[key];
-}
+// //
+// function getLangText(key, language_id) {
+//   if (Object.keys(window.language_module).length < 1) return;
+//   if (!language_id) language_id = languageListBox.dataset.value;
+//   if (!window.language_module[key]) return key;
+//   return window.language_module[key];
+// }
 
 function loadLanguageFromPage() {
   const language_id = languageListBox.dataset.value;
@@ -63,34 +64,32 @@ function updateLanguageListBox(id) {
   popup_loading.remove("language-loading");
 }
 
-(function () {
-  const savedLanguageSeleted = localStorage.getItem("lrc-lang");
-  if (savedLanguageSeleted) languageListBox.dataset.value = savedLanguageSeleted;
+const savedLanguageSeleted = localStorage.getItem("lrc-lang");
+if (savedLanguageSeleted) languageListBox.dataset.value = savedLanguageSeleted;
 
-  getLang_file(savedLanguageSeleted).then(function () {
-    loadLanguageFromPage();
-    const welkomed = localStorage.getItem("lrc-welcome");
-    if (!welkomed) {
-      // localStorage.setItem("lrc-welcome", "udah");
-      // createPopup(getLangText("wellome.title"), getLangText("wellome.desc"));
-    }
-  });
+getLang_file(savedLanguageSeleted).then(function () {
+  loadLanguageFromPage();
+  const welkomed = localStorage.getItem("lrc-welcome");
+  if (!welkomed) {
+    // localStorage.setItem("lrc-welcome", "udah");
+    // createPopup(getLangText("wellome.title"), getLangText("wellome.desc"));
+  }
+});
 
-  changeLanguageButton.addEventListener("click", function () {
-    const closed = languageListBox.classList.contains("hidden");
+changeLanguageButton.addEventListener("click", function () {
+  const closed = languageListBox.classList.contains("hidden");
 
-    if (closed) languageListBox.classList.remove("hidden");
-    else languageListBox.classList.add("hidden");
-  });
+  if (closed) languageListBox.classList.remove("hidden");
+  else languageListBox.classList.add("hidden");
+});
 
-  languageListBox.addEventListener("click", function (event) {
-    popup_loading.add("language-loading");
+languageListBox.addEventListener("click", function (event) {
+  popup_loading.add("language-loading");
 
-    if (Object.keys(language_module).length < 1) return;
-    const selectedLanguageID = event.target.dataset.name;
-    if (!selectedLanguageID) return;
+  if (Object.keys(window.language_module).length < 1) return;
+  const selectedLanguageID = event.target.dataset.name;
+  if (!selectedLanguageID) return;
 
-    this.dataset.value = selectedLanguageID;
-    getLang_file(selectedLanguageID).then(loadLanguageFromPage);
-  });
-})();
+  this.dataset.value = selectedLanguageID;
+  getLang_file(selectedLanguageID).then(loadLanguageFromPage);
+});
