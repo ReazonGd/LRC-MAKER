@@ -1,9 +1,9 @@
 import { createPopup, gotoPage, popup_loading } from "./util";
-import "./audio";
+import "./audio/main";
 import "./language";
-import "./editor";
+import "./editor/main";
 
-window.lrc = {};
+//
 
 // theme controler
 const themeButton = document.querySelector(".lrc-theme");

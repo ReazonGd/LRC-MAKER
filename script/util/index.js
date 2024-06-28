@@ -1,3 +1,4 @@
+import { updateViewDisplay } from "../editor/editor.controller";
 import { languageListBox, lrc_lyrics, table, view_contaier } from "../variable";
 import { create_trTable, getLrcAttribut } from "./timeAndString";
 
@@ -16,13 +17,13 @@ export function createPopup(title, innerHTML) {
   p.innerHTML = innerHTML;
 
   const button = document.createElement("button");
-  button.classList.add("bg-4", "dark:bg-1", "rounded-lg", "px-5", "px-2", "mt-2");
+  button.classList.add("bg-4", "dark:bg-1", "rounded-md", "px-5", "px-2", "mt-2", "text-white");
   button.innerHTML = getLangText("button.ok");
 
   button.addEventListener("click", function () {
     popup_container.removeChild(modal);
 
-    popup_container.classList.toggle("hidden", popup_container.childNodes.length > 0);
+    popup_container.classList.toggle("hidden", popup_container.childNodes.length < 1);
   });
 
   modal.appendChild(h1);
@@ -69,9 +70,13 @@ export const gotoPage = function (pageIndex) {
     v.classList.toggle("flex", pageIndex === 2);
   });
 
-  const lrc_view_mode = document.querySelector(".lrc-view-mode");
-  lrc_view_mode.classList.toggle("hidden", pageIndex !== 4);
-  lrc_view_mode.classList.toggle("flex", pageIndex === 4);
+  const lrc_view_quick_action = document.querySelector(".lrc-view-quick-action");
+  lrc_view_quick_action.classList.toggle("hidden", pageIndex !== 4);
+  lrc_view_quick_action.classList.toggle("flex", pageIndex === 4);
+
+  const lrc_form_quick_action = document.querySelector(".lrc-form-quick-action");
+  lrc_form_quick_action.classList.toggle("hidden", pageIndex !== 1);
+  lrc_form_quick_action.classList.toggle("flex", pageIndex === 1);
 
   if (pageIndex === 2) {
     initLyrics();
@@ -83,7 +88,7 @@ export const gotoPage = function (pageIndex) {
     });
   } else if (pageIndex == 4) {
     renderViewLyrics();
-    window.updateViewDisplay(); //
+    updateViewDisplay(); //
   }
 
   window.scrollTo({
@@ -132,7 +137,7 @@ function drawTable() {
   window.lyrics.forEach(function (v, i) {
     table.appendChild(create_trTable(i, getLrcAttribut(v), v.replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "")));
   });
-  // lrc_update();
+  // editor_highlight_update();
 }
 
 export function getLangText(key, language_id) {

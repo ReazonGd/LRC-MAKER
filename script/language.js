@@ -2,7 +2,6 @@ import { createPopup, getLangText, popup_loading } from "./util";
 import { changeLanguageButton, languageListBox } from "./variable";
 
 window.language_module = {};
-// let window.language_module = {};
 const languages_module_path = {
   id: "/language/id.json",
   en: "/language/en.json", // translated by chatgpt
@@ -26,14 +25,6 @@ function getLang_file(id) {
       .catch(reject);
   });
 }
-
-// //
-// function getLangText(key, language_id) {
-//   if (Object.keys(window.language_module).length < 1) return;
-//   if (!language_id) language_id = languageListBox.dataset.value;
-//   if (!window.language_module[key]) return key;
-//   return window.language_module[key];
-// }
 
 function loadLanguageFromPage() {
   const language_id = languageListBox.dataset.value;
@@ -71,8 +62,6 @@ getLang_file(savedLanguageSeleted).then(function () {
   loadLanguageFromPage();
   const welkomed = localStorage.getItem("lrc-welcome");
   if (!welkomed) {
-    // localStorage.setItem("lrc-welcome", "udah");
-    // createPopup(getLangText("wellome.title"), getLangText("wellome.desc"));
   }
 });
 

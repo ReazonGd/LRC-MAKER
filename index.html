@@ -34,11 +34,12 @@
         theme: {
           extend: {
             colors: {
-              1: "#5A7D7C",
-              2: "#DADFF7",
-              3: "#232C33",
-              4: "#A0C1D1",
-              5: "#101316",
+              1: "#5A7D7C", // dark
+              2: "#d8f3dc", // light
+              3: "#232C33", // dark
+              4: "#588157", // light
+              5: "#101316", // dark
+              6: "#31572c", // light
             },
           },
           fontFamily: {
@@ -48,7 +49,7 @@
       };
     </script>
   </head>
-  <body class="dark:bg-5 font-body text-1 dark:text-white" data-mode="dark">
+  <body class="dark:bg-5 font-body text-gray-700 dark:text-white" data-mode="dark">
     <!-- Header -->
     <nav class="shadow-sm bg-white dark:bg-5 py-2 top-0 left-0 w-full sticky flex items-center justify-between px-4">
       <div id="lang-btn" class="relative">
@@ -131,8 +132,8 @@
             <p class="dark:text-white lrc-name truncate">The Title of That Songs.mp3</p>
           </div>
           <p class="text-lg lrc_text">form.export.text</p>
-          <div class="dark:bg-3 bg-2 rounded-lg cursor-pointer p-5 lrc_export_button">
-            <div class="flex items-center justify-center gap-2 text-white rounded-lg h-28 border-dashed border-2 border-4 dark:border-1">
+          <div class="dark:bg-3 bg-2 rounded-lg cursor-pointer p-5 lrc_export_button text-4 dark:text-white">
+            <div class="flex items-center justify-center gap-2 rounded-lg h-28 border-dashed border-2 border-4 dark:border-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
                 <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
@@ -143,7 +144,7 @@
           <p class="text-lg lrc_text">form.lyrics</p>
           <textarea id="lyrics" placeholder="" class="p-2 rounded-md bg-2 dark:bg-3 h-[90vh]" style="resize: none"></textarea>
           <br />
-          <button class="dark:bg-1 bg-4 py-1 px-2 rounded-md lrc_text text-white" data-gotopage="2">form.next</button>
+          <!-- <button class="dark:bg-1 bg-4 py-1 px-2 rounded-md lrc_text text-white" data-gotopage="2">form.next</button> -->
         </div>
         <!-- <span class="block h-24"></span> -->
       </section>
@@ -238,7 +239,15 @@
 
     <!-- footer & media player -->
     <div class="bottom-0 left-0 w-full sticky">
-      <div class="hidden items-end justify-end p-2 lrc-view-mode bg-gradient-to-t from-white dark:from-5 to-transparent">
+      <div class="hidden items-end justify-end p-2 lrc-form-quick-action bg-gradient-to-t from-white dark:from-5 to-transparent">
+        <div data-gotopage="2" class="p-2 bg-4 flex items-center gap-2 rounded-lg text-white dark:bg-1">
+          <p class="lrc_text">form.next</p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height="16" width="16" fill="currentColor" class="cursor-pointer">
+            <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+          </svg>
+        </div>
+      </div>
+      <div class="hidden items-end justify-end p-2 lrc-view-quick-action bg-gradient-to-t from-white dark:from-5 to-transparent">
         <div data-gotopage="2" class="p-2 bg-4 flex items-center gap-2 rounded-lg text-white dark:bg-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height="16" width="16" fill="currentColor" class="cursor-pointer">
             <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
@@ -265,7 +274,7 @@
               </svg>
             </label>
 
-            <select name="audio-playback" id="audio-playback" class="px-1 dark:bg-3">
+            <select name="audio-playback" id="audio-playback" class="px-1 bg-2 dark:bg-3">
               <option value="0.5">x 0.5</option>
               <option value="0.75">x 0.75</option>
               <option value="1" selected>x 1</option>
@@ -313,22 +322,22 @@
       </div>
       <div class="flex flex-col p-5 bg-4 dark:bg-3">
         <!-- filename Display -->
-        <div id="controler-filename" class="hidden lrc-controler-mode bg-1 flex items-center justify-center gap-2 p-2 lrc-select-file cursor-pointer">
+        <div id="controler-filename" class="hidden text-white lrc-controler-mode bg-6 dark:bg-1 flex items-center justify-center gap-2 p-2 lrc-select-file cursor-pointer">
           <svg width="13" height="13" viewBox="0 0 9 13" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M5.46975 0.248169H1.5C1.10218 0.248169 0.720644 0.406204 0.43934 0.687509C0.158035 0.968813 0 1.35034 0 1.74817V10.7482C0 11.146 0.158035 11.5275 0.43934 11.8088C0.720644 12.0901 1.10218 12.2482 1.5 12.2482H7.5C7.89782 12.2482 8.27936 12.0901 8.56066 11.8088C8.84196 11.5275 9 11.146 9 10.7482V3.77842C8.99996 3.57952 8.92091 3.38879 8.78025 3.24817L6 0.467919C5.85938 0.327257 5.66865 0.248211 5.46975 0.248169ZM5.625 2.87317V1.37317L7.875 3.62317H6.375C6.17609 3.62317 5.98532 3.54415 5.84467 3.4035C5.70402 3.26285 5.625 3.07208 5.625 2.87317ZM6.75 5.22817V6.54067L5.25 6.91567V9.62317C5.25 9.99442 5.02425 10.2854 4.7535 10.4654C4.4805 10.6477 4.12425 10.7482 3.75 10.7482C3.37575 10.7482 3.0195 10.6477 2.7465 10.4654C2.4765 10.2854 2.25 9.99442 2.25 9.62317C2.25 9.25192 2.47575 8.96092 2.7465 8.78092C3.0195 8.59867 3.37575 8.49817 3.75 8.49817C4.017 8.49817 4.275 8.54917 4.5 8.64517V5.41567C4.5 5.24847 4.55588 5.08607 4.65874 4.95426C4.76161 4.82245 4.90557 4.7288 5.06775 4.68817L5.81775 4.50067C5.92834 4.47297 6.04379 4.47084 6.15532 4.49445C6.26685 4.51806 6.37153 4.56678 6.46141 4.63692C6.55129 4.70706 6.62399 4.79676 6.674 4.89921C6.724 5.00166 6.75 5.11416 6.75 5.22817Z"
               fill="currentColor" />
           </svg>
-          <p class="text-white lrc-name text-xs truncate">The Title of That Songs.mp3</p>
+          <p class="lrc-name text-xs truncate">The Title of That Songs.mp3</p>
         </div>
         <!-- .filename Display -->
         <!-- time bar -->
         <div class="flex flex-col mt-2">
-          <div class="flex w-full h-2 bg-2 relative cursor-pointer" style="--w: 0%">
+          <div class="flex w-full h-2 bg-white relative cursor-pointer" style="--w: 0%">
             <input progress type="range" class="absolute h-2 w-full opacity-0" id="time-range" min="0" value="0" max="100" />
-            <div style="width: var(--w)" class="bg-white dark:bg-1 h-full"></div>
+            <div style="width: var(--w)" class="bg-6 dark:bg-1 h-full"></div>
           </div>
-          <div class="flex justify-between">
+          <div class="flex justify-between text-white">
             <p class="currentTime">00:00</p>
             <p class="endTime">00:00</p>
           </div>
@@ -378,10 +387,10 @@
               </svg>
             </div>
             <div class="p-2">
-              <div class="flex w-24 h-2 bg-2 relative rounded-lg cursor-pointer" style="--w: 100%">
+              <div class="flex w-24 h-2 bg-white relative rounded-lg cursor-pointer" style="--w: 100%">
                 <input progress type="range" class="absolute h-2 w-full opacity-0" id="volume-range" min="0" value="1" max="1" step="0.01" />
 
-                <div style="width: var(--w)" class="bg-white dark:bg-1 h-full mt-auto rounded-lg"></div>
+                <div style="width: var(--w)" class="bg-6 dark:bg-1 h-full mt-auto rounded-lg"></div>
               </div>
             </div>
           </div>
@@ -392,15 +401,7 @@
     <!-- .Footer & media player -->
 
     <!-- popup container -->
-    <div id="popup-container" class="before:content-[''] before:bg-black/30 before:fixed before:inset-0 before:w-full before:h-full before:z-[90] hidden">
-      <!-- modal -->
-      <!-- <div class="max-w-80 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-full z-[99] rounded-lg bg-white dark:bg-5 rounded-lg p-5">
-        <h1 class="text-lg w-full text-center">Title</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint eius odio repellat nihil doloremque esse delectus.</p>
-        <button class="bg-4 dark:bg-1 rounded-lg px-5 px-2 mt-2">ok</button>
-      </div> -->
-      <!-- .modal -->
-    </div>
+    <div id="popup-container" class="before:content-[''] before:bg-black/30 before:fixed before:inset-0 before:w-full before:h-full before:z-[90] hidden"></div>
     <!-- .popup container -->
 
     <!-- loading -->
@@ -418,12 +419,6 @@
     </div>
 
     <!-- script -->
-    <!-- loaded metadata -->
-    <!--
-      
-    <script src="/script/util.js"></script>
-    <script src="/script/language.js"></script>
-    <script src="/script/main.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <script type="module" src="script/main.js"></script>
     <!-- script -->

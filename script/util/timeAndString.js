@@ -65,7 +65,7 @@ export function create_trTable(id, time, text) {
 
     // console.log(time, lyicsTime);
     audioPlayer.currentTime = lyicsTime;
-    // lrc_update();
+    // editor_highlight_update();
   });
 
   tr.appendChild(td1);
