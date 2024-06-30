@@ -1,6 +1,6 @@
 import { forwardAudio, playAndPause, rewindAudio } from "../audio/audio.controller";
 import { gotoPage } from "../util";
-import { mainElement } from "../variable";
+import { lastLyricsSetIndex, mainElement } from "../variable";
 import { setNextLyrics } from "./editor.controller";
 
 document.addEventListener("keydown", function (event) {
@@ -34,6 +34,14 @@ document.addEventListener("keydown", function (event) {
       break;
     case "v":
       gotoPage(4);
+      break;
+    case "p":
+      if (mainElement.dataset.id !== 2) return;
+      lastLyricsSetIndex.value = Math.max(0, +lastLyricsSetIndex.value - 1);
+      break;
+    case "n":
+      if (mainElement.dataset.id !== 2) return;
+      lastLyricsSetIndex.value = Math.min(window.lyrics.length, +lastLyricsSetIndex.value + 1);
       break;
   }
 });

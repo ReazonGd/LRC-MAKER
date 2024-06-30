@@ -5,9 +5,9 @@ CLEAR | TODO:
   Y   | make: pop up modal								                                            	
   N   | make: how to page (popup)								                                        
   Y   | make: loading										                                                
-  N   | make: auto filter -> "[text]", " " (space/blank)		                       			
+  Y   | make: auto filter -> "[text]", " " (space/blank)		                       			
   Y   | make: import form for lyrics file					                                   		
-  O   | make: add key short                                                             
+  Y   | make: add key short                                                             
   Y   | make: improve a view page       					                                   		
   Y   | make: view page. 								                                              	
   Y   | make: audio playback settings -> dropdown 		                          				

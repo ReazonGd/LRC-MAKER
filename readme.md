@@ -1,6 +1,6 @@
 # LRC MAKER
 
-![lrc file thumbnail](./og-lrc_maker.jpg)
+![lrc file thumbnail](./asset-image/og-lrc_maker.jpg)
 
 A tool for create, modify, and play basic synchronized lyrics files (LRC) for desktop and mobile.
 
@@ -17,9 +17,20 @@ A tool for create, modify, and play basic synchronized lyrics files (LRC) for de
 3. **Timestamp Lyrics**: Use the button that look like stopwach on right bottom to add timestamps.
 4. **Save and Export**: Click the save button on left side of stopwach button to open save & copy page
 
+## Shortcuts
+
+- `Space` - play and Pause Audio
+- `Arrow Right` - fordwarding audio time
+- `Arrow Left` - rewinding audio time
+- `s` - swich to save page
+- `e` - swich to editor page
+- `v` - swich to view page
+- `Enter` - stamping lyrics and swich to next line
+- `Enter + Shift` - stamping lyrics, but not swich to next line
+
 ## Features
 
-- Load File with drag and drop feature.
+- Load File Audio & lrc with drag and drop feature.
 - Simple time staping.
 - Light & Dark mode theme.
 - Have 2 Language option.

@@ -52,7 +52,7 @@ export const popup_loading = {
   remove: function (initial) {
     this.element.querySelectorAll(`[data-loadname="${initial}"]`).forEach((v) => v.parentElement.removeChild(v));
 
-    if (!this.element.childNodes.length) this.element.classList.toggle("hidden", true);
+    if (!this.element.children.length) this.element.classList.toggle("hidden", true);
   },
 };
 
