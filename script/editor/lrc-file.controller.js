@@ -37,6 +37,7 @@ lrc_lyrics.addEventListener("paste", function (event) {
 const lrcFileHandler = (file) => {
   if (!(file && (file.name.endsWith(".lrc") || file.name.endsWith(".txt")))) {
     createPopup(getLangText("alert.common.title"), getLangText("alert.file_type.not_suport"));
+    return;
   }
 
   popup_loading.add("export_lrc_file");

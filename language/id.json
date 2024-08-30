@@ -14,7 +14,7 @@
     "form.lyrics": "atau tempel ke sini:",
     "form.next": "Lanjutkan",
     "editor.intruction_1": "klik waktu disamping lirik atau tombol",
-    "editor.intruction_2": "untuk mengatur waktu",
+    "editor.intruction_2": "untuk mengubah waktu sesuai audio",
     "editor.lyrics": "Lirik",
     "editor.time": "Waktu",
     "save.header": "Simpan & Salin",
@@ -37,6 +37,9 @@
     "alert.copied.failed.msg": "sepertinya terjadi sesuatu..",
     "alert.common.title": "sebuah informasi",
     "form.export.text": "Punya file .lrc?",
-    "form.export": "export file lrc"
+    "form.export": "export file lrc",
+    "feedback.header": "Punya Masukkan?",
+    "feedback.desc": "Bantu saya untuk membuat project ini menjadi lebih baik",
+    "feedback.btn": "Kirim Massukkan"
   }
 }

@@ -4,7 +4,7 @@ import { lastLyricsSetIndex, mainElement } from "../variable";
 import { setNextLyrics } from "./editor.controller";
 
 document.addEventListener("keydown", function (event) {
-  if (mainElement.dataset.id === 0) return;
+  if (mainElement.dataset.id <= 0) return;
   const target = event.target;
   if (["input", "textarea", "button"].includes(target.tagName.toLowerCase())) return;
   // console.log(target.tagName);
