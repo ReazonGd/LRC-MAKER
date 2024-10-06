@@ -2,13 +2,13 @@
 
 ![lrc file thumbnail](./asset-image/og-lrc_maker.jpg)
 
-A tool for create, modify, and play basic synchronized lyrics files (LRC) for desktop and mobile.
+inpired by megalobiz.com, LRC MAKER is file maker for lrc file with no trafic data. the song is played in browser localy.
 
 ## Table of content
 
 - [How to use](#how-to-use)
+- [Shortcuts](#Shortcuts)
 - [Features](#features)
-- [License](#license)
 
 ## How to use
 
