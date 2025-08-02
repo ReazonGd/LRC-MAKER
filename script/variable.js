@@ -29,3 +29,5 @@ export const lastLyricsSetIndex = document.querySelector("#last-lyrics-set-index
 export const file_name = document.querySelector("#file_name");
 export const changeLanguageButton = document.querySelector("#lang-btn");
 export const languageListBox = document.querySelector("#lang-list");
+export const lrcDisplayContainer = document.querySelector(".viewLRC");
+export const enableView = document.querySelector(".enable-view");

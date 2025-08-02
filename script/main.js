@@ -2,8 +2,7 @@ import { createPopup, gotoPage, popup_loading } from "./util";
 import "./audio/main";
 import "./language";
 import "./editor/main";
-
-//
+import { enableView, lrcDisplayContainer } from "./variable";
 
 // theme controler
 const themeButton = document.querySelector(".lrc-theme");
@@ -25,4 +24,12 @@ document.querySelectorAll(`*[data-gotopage]`).forEach(function (v) {
   v.addEventListener("click", function () {
     gotoPage(Number(this.dataset.gotopage));
   });
+});
+
+//
+enableView.addEventListener("click", function () {
+  !lrcDisplayContainer.hasAttribute("style") ? lrcDisplayContainer.setAttribute("style", "left: 0;") : lrcDisplayContainer.removeAttribute("style");
+
+  // lrcDisplayContainer.classList.
+  // lrcDisplayContainer.hasAttributes("active")
 });

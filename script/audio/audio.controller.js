@@ -15,7 +15,7 @@ function forwardAudio(second = 10) {
   audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + second);
 }
 function rewindAudio(second = 10) {
-  audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 15);
+  audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - second);
 }
 
 function setAudioSpeed(speed) {

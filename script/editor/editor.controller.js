@@ -12,7 +12,17 @@ function setTimeLyrics(index, time) {
 
   lastLyricsSetIndex.value = index;
   document.querySelector(`.lrc-tr-table[data-id="${index}"] td:first-child`).innerHTML = formatedTime;
-  document.querySelector(`.lrc-tr-table[data-id="${index}"]`).dataset.time = time;
+
+  const curentElement = document.querySelector(`.lrc-tr-table[data-id="${index}"]`);
+  curentElement.dataset.time = time;
+  curentElement.scrollIntoView({
+    // top: currentElement.offsetTop - mainElement.clientHeight / 2,
+    // behavior: "instant",
+    behavior: "smooth",
+    block: "center",
+    inline: "center",
+  });
+
   editor_highlight_update();
   return formatedTime;
 }
@@ -36,15 +46,19 @@ function updateViewDisplay() {
     const currentElement = document.querySelector(`.lrc-lyrics-display-text[data-id='${currentLyricsIndex}']`);
     view_contaier.dataset.id = currentLyricsIndex;
     // smoothScrollTo(view_contaier, currentElement.offsetTop - mainElement.clientHeight / 2, 200);
-    view_contaier.scrollTo({
-      top: currentElement.offsetTop - mainElement.clientHeight / 2,
-      behavior: "instant",
+    if (!currentElement.scrollIntoView) return;
+    currentElement.scrollIntoView({
+      // top: currentElement.offsetTop - mainElement.clientHeight / 2,
+      // behavior: "instant",
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
     });
 
     view_contaier.childNodes.forEach(function (val) {
       if (!val.dataset.id) return;
-      val.classList.toggle("opacity-[50%]", parseInt(val.dataset.id) !== currentLyricsIndex);
-      val.classList.toggle("text-3xl", parseInt(val.dataset.id) === currentLyricsIndex);
+      val.classList.toggle("opacity-[50%]", parseInt(val.dataset.id) > currentLyricsIndex);
+      // val.classList.toggle("text-3xl", parseInt(val.dataset.id) === currentLyricsIndex);
     });
   }
 }

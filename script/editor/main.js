@@ -1,4 +1,4 @@
-import { audioPlayer, file_name, lrc_artist, lrc_fileName, lrc_title, mainElement, stopwatch } from "../variable";
+import { audioPlayer, file_name, lrc_artist, lrc_fileName, lrc_title, lrcDisplayContainer, mainElement, stopwatch } from "../variable";
 import { editor_highlight_update, setNextLyrics, updateViewDisplay } from "./editor.controller";
 import "./lrc-file.controller";
 import "./shortcut.controller";
@@ -8,7 +8,9 @@ window.lyrics = [];
 const interval = setInterval(function () {
   if (!(window.lyrics.length && window.lyrics.length > 0 && audioPlayer.src && !audioPlayer.paused)) return;
   if (mainElement.dataset.id == "2") editor_highlight_update();
-  else if (mainElement.dataset.id == "4") updateViewDisplay();
+
+  //  if (mainElement.dataset.id == "4") updateViewDisplay();
+  if (window.innerWidth > 768 || !!lrcDisplayContainer.style.left) updateViewDisplay();
 }, 100);
 
 stopwatch.addEventListener("click", function () {

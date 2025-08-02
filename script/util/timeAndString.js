@@ -70,5 +70,8 @@ export function create_trTable(id, time, text) {
 
   tr.appendChild(td1);
   tr.appendChild(td2);
+
+  tr.id = `lrc-table-${id}`;
+
   return tr;
 }

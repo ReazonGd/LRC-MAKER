@@ -81,14 +81,16 @@ export const gotoPage = function (pageIndex) {
   if (pageIndex === 2) {
     initLyrics();
     drawTable();
+    renderViewLyrics();
+    updateViewDisplay(); //
   } else if (pageIndex == 3) {
     document.querySelectorAll(`input[name="FileNameMode"]`).forEach(function (v) {
       if (!v.checked) return;
       window.updateFileNameInput(v.id); //
     });
   } else if (pageIndex == 4) {
-    renderViewLyrics();
-    updateViewDisplay(); //
+    // renderViewLyrics();
+    // updateViewDisplay(); //
   }
 
   window.scrollTo({
@@ -116,7 +118,7 @@ function renderViewLyrics() {
     const str = lyric.replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "");
 
     const lyicsElement = document.createElement("h1");
-    lyicsElement.classList.add("text-2xl", "text-5", "dark:text-white", "view-display-text", "opacity-[50%]", "lrc-lyrics-display-text", "duration-`100");
+    lyicsElement.classList.add("text-2xl", "text-5", "dark:text-white", "view-display-text", "opacity-[50%]", "lrc-lyrics-display-text", "transition");
     lyicsElement.dataset.id = id;
     lyicsElement.innerText = str;
 

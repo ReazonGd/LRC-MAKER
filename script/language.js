@@ -60,9 +60,6 @@ if (savedLanguageSeleted) languageListBox.dataset.value = savedLanguageSeleted;
 
 getLang_file(savedLanguageSeleted).then(function () {
   loadLanguageFromPage();
-  const welkomed = localStorage.getItem("lrc-welcome");
-  if (!welkomed) {
-  }
 });
 
 changeLanguageButton.addEventListener("click", function () {
