@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://reazongd.github.io/LRC-MAKER/sitemap.xml
+
