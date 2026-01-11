@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/ReazonGd/LRC-MAKER/issues"
   },
-  "homepage": "https://github.com/ReazonGd/LRC-MAKER#readme",
+  "homepage": "https://lrc-maker.reazon.my.id/",
   "dependencies": {
     "vite": "^7.2.4"
   }

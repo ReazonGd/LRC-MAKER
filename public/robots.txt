@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://reazongd.github.io/LRC-MAKER/sitemap.xml
+Sitemap: https://lrc-maker.reazon.my.id/sitemap.xml
 
