@@ -44,11 +44,12 @@
           extend: {
             colors: {
               1: "#5A7D7C", // dark
-              2: "#d8f3dc", // light
+              2: "#fff", // light secondary
               3: "#232C33", // dark
-              4: "#588157", // light
+              4: "#5E548E", // light primary
               5: "#101316", // dark
-              6: "#31572c", // light
+              6: "#231942", // light
+              7: "#F7F5FB", // light bg
             },
           },
           fontFamily: {
@@ -58,7 +59,7 @@
       };
     </script>
   </head>
-  <body class="dark:bg-5 font-body text-gray-700 dark:text-white" data-mode="dark">
+  <body class="dark:bg-5 font-body text-gray-700 dark:text-white bg-7" data-mode="dark">
     <!-- Header -->
     <nav class="shadow-sm bg-white dark:bg-5 py-2 top-0 left-0 w-full sticky flex items-center justify-between px-4">
       <div id="lang-btn" class="relative">
@@ -112,7 +113,7 @@
       <!-- .first page & dnd -->
 
       <!-- property form -->
-      <section style="display: none" id="property" class="flex flex-col w-full h-full justify-center p-5 gap-5 max-w-[60rem] mx-auto">
+      <section style="display: none" id="property" class="flex flex-col w-full h-full justify-center p-5 gap-5 max-w-[60rem] mx-auto mb-28">
         <p class="lrc_text">property.form.des</p>
         <div class="flex flex-col gap-2">
           <div class="flex flex-col gap-2 w-full">
@@ -190,7 +191,7 @@
         </div>
         <div class="flex">
           <div class="flex h-[80vh] w-full overflow-auto resize-x">
-            <table class="w-full border-collapse border border-slate-500">
+            <table class="w-full border-collapse border border-slate-500 mb-[40vh]">
               <thead>
                 <tr>
                   <th class="border border-slate-600 p-2 lrc_text" style="width: 120px">editor.time</th>
@@ -277,7 +278,7 @@
     <!-- .content -->
 
     <!-- footer & media player -->
-    <div class="bottom-0 left-0 w-full sticky">
+    <div class="bottom-0 left-0 w-full fixed">
       <div class="hidden items-end justify-end p-2 lrc-form-quick-action bg-gradient-to-t from-white dark:from-5 to-transparent">
         <div data-gotopage="2" class="p-2 bg-4 flex items-center gap-2 rounded-lg text-white dark:bg-1">
           <p class="lrc_text">form.next</p>
