@@ -20,8 +20,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & Push Image
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ghcr.io/${{ github.repository_owner }}/lrc-maker:latest
+      - name: Build and push 
+        uses: docker/build-push-action@v4 
+        with: 
+          push: true 
+          tags: ghcr.io/reazongd/lrc-maker:latest
