@@ -24,4 +24,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/reazongd/lrc-maker:latest
+          tags: ghcr.io/${{ github.repository_owner }}/lrc-maker:latest
