@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  lrc-maker:
+    build: .
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+
+# For development, use:
+# docker-compose -f docker-compose.dev.yml up

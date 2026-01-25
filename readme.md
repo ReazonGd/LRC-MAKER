@@ -1,6 +1,6 @@
 # LRC MAKER
 
-![lrc file thumbnail](./asset-image/og-lrc_maker.jpg)
+![lrc file thumbnail](https://raw.githubusercontent.com/ReazonGd/LRC-MAKER/refs/heads/main/public/asset-image/og-lrc_maker.jpg)
 
 inpired by megalobiz.com, LRC MAKER is file maker for lrc file with no trafic data. the song is played in browser localy.
 
