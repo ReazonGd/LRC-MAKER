@@ -36,28 +36,11 @@
         user-select: none;
       }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: ["selector", '[data-mode="dark"]'],
-        theme: {
-          extend: {
-            colors: {
-              1: "#5A7D7C", // dark
-              2: "#fff", // light secondary
-              3: "#232C33", // dark
-              4: "#5E548E", // light primary
-              5: "#101316", // dark
-              6: "#231942", // light
-              7: "#F7F5FB", // light bg
-            },
-          },
-          fontFamily: {
-            body: ["Lexend", "sans-serif"],
-          },
-        },
-      };
-    </script>
+    <!-- ofline -->
+    <!-- <link rel='stylesheet' href='file:///D:/icons/bootstrap-icons.css' /> -->
+    <!-- online -->
+    <link rel='stylesheet' href='index.css' />
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   </head>
   <body class="dark:bg-5 font-body text-gray-700 dark:text-white bg-7" data-mode="dark">
     <!-- Header -->
@@ -115,6 +98,12 @@
       <!-- property form -->
       <section style="display: none" id="property" class="flex flex-col w-full h-full justify-center p-5 gap-5 max-w-[60rem] mx-auto mb-28">
         <p class="lrc_text">property.form.des</p>
+        <div class="flex justify-center">
+          <div class="aspect-square bg-black rounded-md w-full max-w-62.5 relative">
+              <img src="" alt="" class="lrc-cover object-cover w-full h-full">
+              <div class="absolute bottom-2.5 left-2.5 text-white bg-black/50 p-2 rounded-md" onclick="document.querySelector('#coverFileInput').click()">[ganti cover]</div>
+          </div>
+        </div>
         <div class="flex flex-col gap-2">
           <div class="flex flex-col gap-2 w-full">
             <p class="text-lg lrc_text">form.title</p>
@@ -220,7 +209,19 @@
           </svg>
           <h1 class="text-2xl lrc_text">save.header</h1>
         </div>
-
+        
+        <div class="flex flex-col gap justify-center">
+          <p class="lrc_text mb-1">save.audio</p>
+          <button class="bg-4 dark:bg-1 py-1 px-2 rounded-md cursor-pointer w-full text-white" id="save-audio">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save-fill inline" viewBox="0 0 16 16">
+              <path
+                d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v7.793L4.854 6.646a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l3.5-3.5a.5.5 0 0 0-.708-.708L8.5 9.293z"
+              />
+            </svg>
+            <span class="lrc_text"> save.download </span>
+          </button>
+        </div>
+        
         <!-- file name option -->
         <div class="flex flex-col gap justify-center">
           <p class="lrc_text">save.option</p>
@@ -238,7 +239,7 @@
               <label class="peer-checked:bg-4 dark:peer-checked:bg-1 dark:bg-3 bg-2 p-2 rounded-lg w-full h-full text-center lrc_text peer-checked:text-white" for="filenamemode-custom">save.option.custom</label>
             </div>
           </div>
-          <div class="flex rounded-md overflow-hidden items-center bg-4 dark:bg-1 my-2">
+          <div class="flex rounded-md overflow-hidden items-center bg-4 dark:bg-1 my-1">
             <input placeholder="file" id="fileName" data-temp="" class="bg-2 dark:bg-3 py-2 px-3 w-full disabled:bg-gray-200 dark:disabled:bg-gray-800 disabled:cursor-not-allowed" value="The Title of That Songs" type="text" disabled />
             <span class="h-full px-6 text-white">.lrc</span>
           </div>
@@ -490,6 +491,7 @@
       <!-- file input -->
       <input type="file" id="fileInput" accept="audio/*" hidden />
       <audio id="audioPlayer" hidden></audio>
+      <input type="file" id="coverFileInput" hidden />
       <input type="file" id="lrcFileInput" hidden />
       <input type="text" name="file_name" id="file_name" hidden />
       <input type="number" name="last-lyrics-set-index" id="last-lyrics-set-index" hidden />

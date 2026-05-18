@@ -1,6 +1,25 @@
+import { ID3Writer } from "browser-id3-writer";
 import { createPopup, getLangText, popup_loading } from "../util";
 import { convertTimeStringToSecondsInt, getLrcAttribut, timeFormat } from "../util/timeAndString";
-import { app_version, audioPlayer, copyButton, exportLRCfile, exportLRCfileButton, lrc_album, lrc_artist, lrc_author, lrc_fileName, lrc_lyrics, lrc_title, lrc_userName, saveButton } from "../variable";
+import {
+  app_version,
+  audioPlayer,
+  copyButton,
+  exportLRCfile,
+  exportLRCfileButton,
+  fileInput,
+  global,
+  lrc_album,
+  lrc_artist,
+  lrc_author,
+  lrc_cover,
+  lrc_fileName,
+  lrc_lyrics,
+  lrc_title,
+  lrc_userName,
+  saveAudioButton,
+  saveButton,
+} from "../variable";
 
 //
 
@@ -50,7 +69,7 @@ const lrcFileHandler = (file) => {
   reader.readAsText(file);
 };
 
-function filterLyrics(content) {
+export function filterLyrics(content) {
   let arr_lyrics = content.split("\n");
   arr_lyrics = arr_lyrics.filter((v) => v);
   arr_lyrics = arr_lyrics.map((v) => v.trim());
@@ -97,6 +116,13 @@ function convertLyricsToLRCformat() {
   return `${arr_str.join("\n")}\n\n${window.lyrics.join("\n")}`;
 }
 
+function lrcToSylt() {
+  return window.lyrics.map((v) => [
+    v.replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, ""),
+    convertTimeStringToSecondsInt(getLrcAttribut(v)) * 1000,
+  ]);
+}
+
 // save btn handler
 saveButton.addEventListener("click", function () {
   const get_lrc_contex = convertLyricsToLRCformat();
@@ -132,4 +158,48 @@ copyButton.addEventListener("click", function () {
 
 lrc_fileName.addEventListener("input", function () {
   this.dataset.temp = this.value;
+});
+
+saveAudioButton.addEventListener("click", async function () {
+  // console.log(global.audio_buff)
+  const writer = new ID3Writer(global.audio_buff);
+  writer
+    .setFrame("TIT2", lrc_title.value ?? "")
+    .setFrame(
+      "TPE1",
+      (lrc_artist.value ?? "").split(",").map((v) => v.trim()),
+    )
+    .setFrame("TALB", lrc_album.value ?? "")
+    .setFrame("TEXT", lrc_userName.value ?? "")
+    .setFrame("SYLT", {
+      type: 1,
+      text: lrcToSylt(),
+      timestampFormat: 2,
+      language: "eng",
+      description: "edited with lrc-maker: https://lrc-maker.reazon.my.id/",
+    })
+    .setFrame("USLT", {
+      description: "edited with lrc-maker: https://lrc-maker.reazon.my.id/",
+      lyrics: convertLyricsToLRCformat(),
+      language: "eng",
+    });
+
+  if (lrc_cover.src && global.picture_buff) {
+    writer.setFrame("APIC", {
+      type: 3,
+      description: "",
+      data: global.picture_buff,
+    });
+  }
+  writer.addTag();
+
+  const taggedSongBuffer = writer.arrayBuffer;
+  const blob = writer.getBlob();
+  const url = writer.getURL();
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileInput.value.split("\\").slice(-1);
+  a.target = "_blank";
+  a.click();
 });

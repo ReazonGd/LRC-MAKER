@@ -7,7 +7,21 @@ const mainElement = document.querySelector("#main");
 
 export function createPopup(title, innerHTML) {
   const modal = document.createElement("div");
-  modal.classList.add("max-w-80", "fixed", "top-1/2", "left-1/2", "-translate-y-1/2", "-translate-x-1/2", "w-full", "z-[99]", "rounded-lg", "bg-white", "dark:bg-5", "rounded-lg", "p-5");
+  modal.classList.add(
+    "max-w-80",
+    "fixed",
+    "top-1/2",
+    "left-1/2",
+    "-translate-y-1/2",
+    "-translate-x-1/2",
+    "w-full",
+    "z-[99]",
+    "rounded-lg",
+    "bg-white",
+    "dark:bg-5",
+    "rounded-lg",
+    "p-5",
+  );
 
   const h1 = document.createElement("h1");
   h1.classList.add("text-lg", "w-full", "text-center");
@@ -37,10 +51,13 @@ export function createPopup(title, innerHTML) {
 export const popup_loading = {
   element: document.querySelector("#popup-loading"),
   aset: ["/asset-image/aset1.gif", "/asset-image/aset2.gif"],
-  modal: (id, img_src) => `<div data-loadname="${id}" class="max-w-80 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[99] rounded-lg bg-white dark:bg-5 rounded-lg p-5 flex flex-col items-center">
+  modal: (
+    id,
+    img_src,
+  ) => `<div data-loadname="${id}" class="max-w-80 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[99] rounded-lg bg-white dark:bg-5 rounded-lg p-5 flex flex-col items-center">
         <img src="${img_src}" class="w-40 h-40" alt="loading" />
         <br />
-        <p>loading....</p>
+        <p>Processing ${id}....</p>
       </div>`,
   // queue: [],
   add: function (initial) {
@@ -118,7 +135,15 @@ function renderViewLyrics() {
     const str = lyric.replace(/\[\d{1,3}:\d{1,3}\.\d{1,3}\]/, "");
 
     const lyicsElement = document.createElement("h1");
-    lyicsElement.classList.add("text-2xl", "text-5", "dark:text-white", "view-display-text", "opacity-[50%]", "lrc-lyrics-display-text", "transition");
+    lyicsElement.classList.add(
+      "text-2xl",
+      "text-5",
+      "dark:text-white",
+      "view-display-text",
+      "opacity-[50%]",
+      "lrc-lyrics-display-text",
+      "transition",
+    );
     lyicsElement.dataset.id = id;
     lyicsElement.innerText = str;
 
@@ -147,4 +172,55 @@ export function getLangText(key, language_id) {
   if (!language_id) language_id = languageListBox.dataset.value;
   if (!window.language_module[key]) return key;
   return window.language_module[key];
+}
+
+export function blobToArrayBuffer(blob) {
+  return new Promise((rs, rj) => {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const arrayBuffer = reader.result;
+      // go next
+      rs(arrayBuffer);
+    };
+    reader.onerror = function () {
+      // handle error
+      console.error("Reader error", reader.error);
+      rj();
+    };
+    reader.readAsArrayBuffer(blob);
+  });
+}
+
+export async function getRealMime(file) {
+  const buffer = await file.slice(0, 12).arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  const hex = [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+
+  if (hex.startsWith("494433") || (bytes[0] === 0xff && (bytes[1] & 0xe0) === 0xe0)) {
+    return "audio/mpeg"; // ID3... atau FF FB/FF FA/FF F3
+  }
+  if (hex.slice(8, 16) === "66747970") {
+    const brand = String.fromCharCode(...bytes.slice(8, 12));
+    return `MP4 container (brand: ${brand})`; // ftyp → mp4/m4a/dash
+  }
+  if (hex.startsWith("664c6143")) return "audio/flac"; // fLaC
+  if (hex.startsWith("4f676753")) return "audio/ogg"; // OggS
+  if (hex.startsWith("52494646")) return "audio/wav"; // RIFF
+
+  return "unknown";
+}
+
+export async function processWithLoading(cb, loading_name) {
+  popup_loading.add(loading_name);  
+
+  let result = null;
+  try {
+    result = await cb();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    popup_loading.remove(loading_name);
+  }
+
+  return result
 }
