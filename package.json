@@ -2,7 +2,7 @@
   "name": "lrc-maker",
   "version": "1.2.5",
   "description": "![lrc file thumbnail](./og-lrc_maker.jpg)",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

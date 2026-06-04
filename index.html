@@ -43,6 +43,17 @@
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   </head>
   <body class="dark:bg-5 font-body text-gray-700 dark:text-white bg-7" data-mode="dark">
+    <!-- Error Popup --> 
+     <div class="bg-black/20 fixed top-0 left-0 w-full h-full z-99 flex items-center justify-center">
+        <div class="dark:bg-5 bg-7 rounded-xl p-2 m-4 w-full max-h-screen">
+          <h1 class="lrc_text text-xl">error.title</h1>
+          <div class=""></div>
+          <div class="flex items-end">
+            <button class="lrc_text p-2 dark:bg-1 bg-4 rounded-xl text-white text-sm">error.close</button>
+          </div>
+        </div>
+     </div>
+    <!-- Error Popup End -->
     <!-- Header -->
     <nav class="shadow-sm bg-white dark:bg-5 py-2 top-0 left-0 w-full sticky flex items-center justify-between px-4">
       <div id="lang-btn" class="relative">
@@ -121,8 +132,8 @@
           </div>
           <div class="flex items-center gap-2 flex-col md:flex-row">
             <div class="flex flex-col gap-2 w-full">
-              <p class="text-lg lrc_text">form.author</p>
-              <input placeholder="" id="author" class="bg-2 dark:bg-3 py-2 px-3 rounded-md" type="text" />
+              <p class="text-lg lrc_text">form.year</p>
+              <input placeholder="" id="year" class="bg-2 dark:bg-3 py-2 px-3 rounded-md" type="text" />
             </div>
             <div class="flex flex-col gap-2 w-full">
               <p class="text-lg lrc_text">form.userName</p>
@@ -500,7 +511,7 @@
 
     <!-- script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
-    <script type="module" src="script/main.js"></script>
+    <script type="module" src="script/main.ts"></script>
     <!-- script -->
   </body>
 </html>
