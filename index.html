@@ -44,7 +44,7 @@
   </head>
   <body class="dark:bg-5 font-body text-gray-700 dark:text-white bg-7" data-mode="dark">
     <!-- Error Popup --> 
-     <div class="bg-black/20 fixed top-0 left-0 w-full h-full z-99 flex items-center justify-center">
+     <!-- <div class="bg-black/20 fixed top-0 left-0 w-full h-full z-99 flex items-center justify-center">
         <div class="dark:bg-5 bg-7 rounded-xl p-2 m-4 w-full max-h-screen">
           <h1 class="lrc_text text-xl">error.title</h1>
           <div class=""></div>
@@ -52,7 +52,7 @@
             <button class="lrc_text p-2 dark:bg-1 bg-4 rounded-xl text-white text-sm">error.close</button>
           </div>
         </div>
-     </div>
+     </div> -->
     <!-- Error Popup End -->
     <!-- Header -->
     <nav class="shadow-sm bg-white dark:bg-5 py-2 top-0 left-0 w-full sticky flex items-center justify-between px-4">
@@ -203,7 +203,7 @@
           </div>
           <div class="viewLRC md:w-1/3 w-full h-full md:sticky fixed top-0 md:left-0 left-full dark:bg-5 bg-white">
             <!-- before:block before:z-[3] arter:block arter:z-[3] overflow-hidden before:content-[''] before:h-30% before:top-0 before:left-0 before:bg-gradient-to-b before:from-white before:dark:from-5 before:to-transparent after:content-[''] after:h-30% after:bottom-0 after:left-0 after:bg-gradient-to-t after:from-white after:dark:from-5 after:to-transparent -->
-            <div data-id="0" class="h-[50vh] overflow-hidden px-5 duration-3000 flex flex-col gap-5" id="view-conteiner">
+            <div data-id="0" class="h-[50vh] overflow-hidden px-5 duration-3000 flex flex-col gap-10" id="view-conteiner">
               <h1 class="text-2xl text-5 dark:text-white" id="view-lyrics-display" data-id="0">hello world</h1>
               <!-- <p class="text-xm dark:text-gray-600" id="view-lyrics-time">00:00:00</p> -->
             </div>
@@ -278,9 +278,9 @@
       </section>
       <!-- .save selection -->
       <!-- view-page -->
-      <section style="display: none" id="view-page" class="flex min-h-[85vh] flex-col w-full h-full items-center justify-center space-y-2 ease-out">
+      <section style="display: none" id="view-page" class="flex min-h-[85vh] flex-col w-full h-full items-center justify-center space-y-2 transition-all ease-in-out">
         <!-- before:block before:z-[3] arter:block arter:z-[3] overflow-hidden before:content-[''] before:h-30% before:top-0 before:left-0 before:bg-gradient-to-b before:from-white before:dark:from-5 before:to-transparent after:content-[''] after:h-30% after:bottom-0 after:left-0 after:bg-gradient-to-t after:from-white after:dark:from-5 after:to-transparent -->
-        <div data-id="0" class="text-center h-[50vh] overflow-hidden px-5 duration-3000 flex flex-col gap-5" id="view-conteiner">
+        <div data-id="0" class="text-center h-[50vh] overflow-hidden px-5 duration-3000 flex flex-col gap-5 ease-in-out transition-all" id="view-conteiner">
           <h1 class="text-2xl text-5 dark:text-white" id="view-lyrics-display" data-id="0">hello world</h1>
           <!-- <p class="text-xm dark:text-gray-600" id="view-lyrics-time">00:00:00</p> -->
         </div>
@@ -498,6 +498,7 @@
     </div>
     <!-- .loading -->
 
+    <div class="blur-sm text-"></div>
     <div id="lrc">
       <!-- file input -->
       <input type="file" id="fileInput" accept="audio/*" hidden />

@@ -201,7 +201,7 @@ saveAudioButton.addEventListener("click", async function () {
 
   const a = document.createElement("a");
   a.href = writer.getURL();
-  a.download = fileInput.value.split("\\").slice(-1).toString();
+  a.download = lrc_title.value ?? fileInput.value.split("\\").slice(-1).toString();
   a.target = "_blank";
   a.click();
 });

@@ -78,7 +78,12 @@ function updateViewDisplay() {
     view_contaier.childNodes.forEach(function (el) {
       const val = el as HTMLElement;
       if (!val.dataset.id) return;
-      val.classList.toggle("opacity-[50%]", parseInt(val.dataset.id) > currentLyricsIndex);
+
+      // higligth
+      val.classList.toggle("blur-sm", parseInt(val.dataset.id) < currentLyricsIndex);
+      val.classList.toggle("opacity-[50%]", parseInt(val.dataset.id) !== currentLyricsIndex);
+      val.classList.toggle("text-2xl", parseInt(val.dataset.id) == currentLyricsIndex);
+      val.classList.toggle("text-xl", parseInt(val.dataset.id) !== currentLyricsIndex);
     });
   }
 }

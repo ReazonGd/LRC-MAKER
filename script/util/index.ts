@@ -131,13 +131,15 @@ function renderViewLyrics() {
 
     const lyicsElement = document.createElement("h1");
     lyicsElement.classList.add(
-      "text-2xl",
+      "text-xl",
       "text-5",
       "dark:text-white",
       "view-display-text",
       "opacity-[50%]",
       "lrc-lyrics-display-text",
-      "transition",
+      "transition-all",
+      "duration-300",
+      "ease-out",
     );
     (lyicsElement as HTMLElement).dataset.id = `${id}`;
     lyicsElement.innerText = str;
@@ -164,12 +166,11 @@ function drawTable() {
 
 export function getLangText(key: string): string {
   if (Object.keys(global.language_module).length < 1) {
-    return key
-  };
-  if (!global.language_module[key]) {
-    console.warn(`${key} is not defined in your language.`)
     return key;
-
+  }
+  if (!global.language_module[key]) {
+    console.warn(`${key} is not defined in your language.`);
+    return key;
   }
   return global.language_module[key];
 }

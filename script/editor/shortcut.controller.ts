@@ -3,10 +3,10 @@ import { gotoPage } from "../util";
 import { global, lastLyricsSetIndex, mainElement } from "../variable";
 import { setNextLyrics } from "./editor.controller";
 
-document.addEventListener("keydown", function (event) {
+window.addEventListener("keydown", function (event) {
   const id = Number(mainElement.dataset.id);
 
-  if (id) return;
+  if (id  <= 0) return;
   const target = event.target;
   if (!target || ["input", "textarea", "button"].includes((target as any).tagName.toLowerCase())) return;
   // console.log(target.tagName);
