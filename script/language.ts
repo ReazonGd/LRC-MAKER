@@ -1,4 +1,4 @@
-import { createPopup, getLangText, popup_loading } from "./util";
+import { getLangText, popup_loading } from "./util";
 import { changeLanguageButton, global, languageListBox } from "./variable";
 
 global.language_module = {};
@@ -10,7 +10,7 @@ const languages_module_path: { [key: string]: string } = {
 // load from "/laguage" folder
 function getLang_file(id: string) {
   return new Promise((resolve, reject) => {
-    let lang_path;
+    let lang_path: string;
 
     if (!(languages_module_path[id] && typeof id === "string")) lang_path = languages_module_path["id"];
     else lang_path = languages_module_path[id];
@@ -55,13 +55,11 @@ function updateLanguageListBox(id: string) {
   popup_loading.remove("language-loading");
 }
 
-const savedLanguageSeleted = localStorage.getItem("lrc-lang");
-if (savedLanguageSeleted) {
-  languageListBox.dataset.value = savedLanguageSeleted;
-  getLang_file(savedLanguageSeleted).then(function () {
-    loadLanguageFromPage();
-  });
-}
+const savedLanguageSeleted = localStorage.getItem("lrc-lang") ?? "id";
+languageListBox.dataset.value = savedLanguageSeleted;
+getLang_file(savedLanguageSeleted).then(function () {
+  loadLanguageFromPage();
+});
 
 changeLanguageButton.addEventListener("click", function () {
   const closed = languageListBox.classList.contains("hidden");

@@ -1,8 +1,8 @@
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 
 class FFmpegExtended extends FFmpeg {
-  isLoaded: boolean = false 
-  
+  isLoaded: boolean = false
+
   constructor() {
     super();
   }
@@ -24,4 +24,4 @@ class FFmpegExtended extends FFmpeg {
 
 export const ffmpeg = new FFmpegExtended();
 
-(async () => {})();
+

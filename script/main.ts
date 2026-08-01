@@ -32,3 +32,5 @@ enableView.addEventListener("click", function () {
     ? lrcDisplayContainer.setAttribute("style", "left: 0;")
     : lrcDisplayContainer.removeAttribute("style");
 });
+
+
