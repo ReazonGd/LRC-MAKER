@@ -18,18 +18,18 @@ function rewindAudio(second = 10) {
   audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - second);
 }
 
-function setAudioSpeed(speed) {
+function setAudioSpeed(speed: number) {
   audioPlayer.playbackRate = speed;
 }
 
 function audioPlayHandler() {
-  pnpButton.querySelector(".play").classList.add("hidden");
-  pnpButton.querySelector(".pause").classList.remove("hidden");
+  pnpButton.querySelector(".play")!.classList.add("hidden");
+  pnpButton.querySelector(".pause")!.classList.remove("hidden");
 }
 
 function audioPauseHandler() {
-  pnpButton.querySelector(".pause").classList.add("hidden");
-  pnpButton.querySelector(".play").classList.remove("hidden");
+  pnpButton.querySelector(".pause")!.classList.add("hidden");
+  pnpButton.querySelector(".play")!.classList.remove("hidden");
 }
 
 function audioEndHandler() {

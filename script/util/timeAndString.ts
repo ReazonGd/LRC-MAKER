@@ -1,7 +1,8 @@
 import { getLangText } from ".";
-import { lrc_lyrics, offsetTime } from "../variable";
+import { setTimeLyrics } from "../editor/editor.controller";
+import { audioPlayer, global, lrc_lyrics, offsetTime } from "../variable";
 
-export function timeFormat(time, includes_milis) {
+export function timeFormat(time: number, includes_milis?: boolean) {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
   let milliseconds = (time % 60).toFixed(2).split(".")[1];
@@ -10,7 +11,7 @@ export function timeFormat(time, includes_milis) {
 }
 
 //  returning from mm:ss.xx string into int number
-export function convertTimeStringToSecondsInt(timeString) {
+export function convertTimeStringToSecondsInt(timeString: string) {
   if (typeof timeString === "number") return timeString;
   if (!timeString.match(/\d{1,3}:\d{1,3}\.\d{1,3}/)) return NaN;
   const [minutes, rest] = timeString.split(":");
@@ -19,29 +20,29 @@ export function convertTimeStringToSecondsInt(timeString) {
 }
 
 // get timme format from lyrics
-export function getLrcAttribut(str) {
+export function getLrcAttribut(str: string) {
   return str.substring(str.indexOf("[") + 1, str.indexOf("]")).trim();
 }
 
 // finding current lyics
-export function findCurrentLyricsIndex(time) {
+export function findCurrentLyricsIndex(time: number) {
   // const lyrics = lrc_lyrics.value.split("\n");
 
   let index = null;
 
-  for (let i = 0; i < window.lyrics.length; i++) {
-    const timeA = convertTimeStringToSecondsInt(getLrcAttribut(window.lyrics[i]));
+  for (let i = 0; i < global.lyrics.length; i++) {
+    const timeA = convertTimeStringToSecondsInt(getLrcAttribut(global.lyrics[i]));
     if (timeA <= time && !(timeA === 0 && i > 0)) index = i;
   }
 
   return index;
 }
 
-export function create_trTable(id, time, text) {
+export function create_trTable(id: number, time: string, text: string) {
   const tr = document.createElement("tr");
   tr.classList.add("dark:odd:bg-1/10", "dark:even:bg-3/10", "lrc-tr-table", "odd:bg-2/10", "even:bg-4/10");
-  tr.dataset.id = id;
-  tr.dataset.time = convertTimeStringToSecondsInt(time);
+  tr.dataset.id = `${id}`;
+  tr.dataset.time = `${convertTimeStringToSecondsInt(time)}`;
 
   const td1 = document.createElement("td");
   td1.classList.add("border", "border-slate-600", "p-2", "text-center", "cursor-pointer");
@@ -54,14 +55,14 @@ export function create_trTable(id, time, text) {
     const currentTime = audioPlayer.currentTime;
     const offset = Number(offsetTime.value);
 
-    window.setTimeLyrics(id, Math.min(audioPlayer.duration, Math.max(0, currentTime + offset)));
+    setTimeLyrics(id, Math.min(audioPlayer.duration, Math.max(0, currentTime + offset)));
   };
 
   const td2 = document.createElement("td");
   td2.innerHTML = text;
   td2.classList.add("border", "border-slate-600", "p-2", "cursor-pointer");
   td2.addEventListener("click", function () {
-    const lyicsTime = parseFloat(this.parentElement.dataset.time);
+    const lyicsTime = parseFloat(td2.parentElement!.dataset.time!);
 
     // console.log(time, lyicsTime);
     audioPlayer.currentTime = lyicsTime;

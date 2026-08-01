@@ -1,11 +1,11 @@
 import { createPopup, gotoPage, popup_loading } from "./util";
 import "./audio/main";
 import "./language";
+import "./util/global-error"
 import "./editor/main";
-import { enableView, lrcDisplayContainer } from "./variable";
+import { enableView, lrcDisplayContainer, themeButton } from "./variable";
 
 // theme controler
-const themeButton = document.querySelector(".lrc-theme");
 themeButton.addEventListener("click", function () {
   const theme_now = document.body.dataset.mode;
   if (theme_now === "dark") document.body.dataset.mode = "light";
@@ -21,15 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // gotoPage btn handler
 document.querySelectorAll(`*[data-gotopage]`).forEach(function (v) {
-  v.addEventListener("click", function () {
-    gotoPage(Number(this.dataset.gotopage));
+  v.addEventListener("click", (e) => {
+    gotoPage(Number((v as HTMLElement).dataset.gotopage));
   });
 });
 
 //
 enableView.addEventListener("click", function () {
-  !lrcDisplayContainer.hasAttribute("style") ? lrcDisplayContainer.setAttribute("style", "left: 0;") : lrcDisplayContainer.removeAttribute("style");
-
-  // lrcDisplayContainer.classList.
-  // lrcDisplayContainer.hasAttributes("active")
+  !lrcDisplayContainer.hasAttribute("style")
+    ? lrcDisplayContainer.setAttribute("style", "left: 0;")
+    : lrcDisplayContainer.removeAttribute("style");
 });
+
+

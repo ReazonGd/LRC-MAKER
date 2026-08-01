@@ -36,30 +36,24 @@
         user-select: none;
       }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: ["selector", '[data-mode="dark"]'],
-        theme: {
-          extend: {
-            colors: {
-              1: "#5A7D7C", // dark
-              2: "#fff", // light secondary
-              3: "#232C33", // dark
-              4: "#5E548E", // light primary
-              5: "#101316", // dark
-              6: "#231942", // light
-              7: "#F7F5FB", // light bg
-            },
-          },
-          fontFamily: {
-            body: ["Lexend", "sans-serif"],
-          },
-        },
-      };
-    </script>
+    <!-- ofline -->
+    <!-- <link rel='stylesheet' href='file:///D:/icons/bootstrap-icons.css' /> -->
+    <!-- online -->
+    <link rel='stylesheet' href='index.css' />
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   </head>
   <body class="dark:bg-5 font-body text-gray-700 dark:text-white bg-7" data-mode="dark">
+    <!-- Error Popup --> 
+     <!-- <div class="bg-black/20 fixed top-0 left-0 w-full h-full z-99 flex items-center justify-center">
+        <div class="dark:bg-5 bg-7 rounded-xl p-2 m-4 w-full max-h-screen">
+          <h1 class="lrc_text text-xl">error.title</h1>
+          <div class=""></div>
+          <div class="flex items-end">
+            <button class="lrc_text p-2 dark:bg-1 bg-4 rounded-xl text-white text-sm">error.close</button>
+          </div>
+        </div>
+     </div> -->
+    <!-- Error Popup End -->
     <!-- Header -->
     <nav class="shadow-sm bg-white dark:bg-5 py-2 top-0 left-0 w-full sticky flex items-center justify-between px-4">
       <div id="lang-btn" class="relative">
@@ -115,6 +109,12 @@
       <!-- property form -->
       <section style="display: none" id="property" class="flex flex-col w-full h-full justify-center p-5 gap-5 max-w-[60rem] mx-auto mb-28">
         <p class="lrc_text">property.form.des</p>
+        <div class="flex justify-center">
+          <div class="aspect-square bg-black rounded-md w-full max-w-62.5 relative">
+              <img src="" alt="" class="lrc-cover object-cover w-full h-full">
+              <div class="absolute bottom-2.5 left-2.5 text-white bg-black/50 p-2 rounded-md" onclick="document.querySelector('#coverFileInput').click()">[ganti cover]</div>
+          </div>
+        </div>
         <div class="flex flex-col gap-2">
           <div class="flex flex-col gap-2 w-full">
             <p class="text-lg lrc_text">form.title</p>
@@ -132,8 +132,8 @@
           </div>
           <div class="flex items-center gap-2 flex-col md:flex-row">
             <div class="flex flex-col gap-2 w-full">
-              <p class="text-lg lrc_text">form.author</p>
-              <input placeholder="" id="author" class="bg-2 dark:bg-3 py-2 px-3 rounded-md" type="text" />
+              <p class="text-lg lrc_text">form.year</p>
+              <input placeholder="" id="year" class="bg-2 dark:bg-3 py-2 px-3 rounded-md" type="text" />
             </div>
             <div class="flex flex-col gap-2 w-full">
               <p class="text-lg lrc_text">form.userName</p>
@@ -203,7 +203,7 @@
           </div>
           <div class="viewLRC md:w-1/3 w-full h-full md:sticky fixed top-0 md:left-0 left-full dark:bg-5 bg-white">
             <!-- before:block before:z-[3] arter:block arter:z-[3] overflow-hidden before:content-[''] before:h-30% before:top-0 before:left-0 before:bg-gradient-to-b before:from-white before:dark:from-5 before:to-transparent after:content-[''] after:h-30% after:bottom-0 after:left-0 after:bg-gradient-to-t after:from-white after:dark:from-5 after:to-transparent -->
-            <div data-id="0" class="h-[50vh] overflow-hidden px-5 duration-3000 flex flex-col gap-5" id="view-conteiner">
+            <div data-id="0" class="h-[50vh] overflow-hidden px-5 duration-3000 flex flex-col gap-10" id="view-conteiner">
               <h1 class="text-2xl text-5 dark:text-white" id="view-lyrics-display" data-id="0">hello world</h1>
               <!-- <p class="text-xm dark:text-gray-600" id="view-lyrics-time">00:00:00</p> -->
             </div>
@@ -220,7 +220,19 @@
           </svg>
           <h1 class="text-2xl lrc_text">save.header</h1>
         </div>
-
+        
+        <div class="flex flex-col gap justify-center">
+          <p class="lrc_text mb-1">save.audio</p>
+          <button class="bg-4 dark:bg-1 py-1 px-2 rounded-md cursor-pointer w-full text-white" id="save-audio">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save-fill inline" viewBox="0 0 16 16">
+              <path
+                d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v7.793L4.854 6.646a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l3.5-3.5a.5.5 0 0 0-.708-.708L8.5 9.293z"
+              />
+            </svg>
+            <span class="lrc_text"> save.download </span>
+          </button>
+        </div>
+        
         <!-- file name option -->
         <div class="flex flex-col gap justify-center">
           <p class="lrc_text">save.option</p>
@@ -238,7 +250,7 @@
               <label class="peer-checked:bg-4 dark:peer-checked:bg-1 dark:bg-3 bg-2 p-2 rounded-lg w-full h-full text-center lrc_text peer-checked:text-white" for="filenamemode-custom">save.option.custom</label>
             </div>
           </div>
-          <div class="flex rounded-md overflow-hidden items-center bg-4 dark:bg-1 my-2">
+          <div class="flex rounded-md overflow-hidden items-center bg-4 dark:bg-1 my-1">
             <input placeholder="file" id="fileName" data-temp="" class="bg-2 dark:bg-3 py-2 px-3 w-full disabled:bg-gray-200 dark:disabled:bg-gray-800 disabled:cursor-not-allowed" value="The Title of That Songs" type="text" disabled />
             <span class="h-full px-6 text-white">.lrc</span>
           </div>
@@ -266,9 +278,9 @@
       </section>
       <!-- .save selection -->
       <!-- view-page -->
-      <section style="display: none" id="view-page" class="flex min-h-[85vh] flex-col w-full h-full items-center justify-center space-y-2 ease-out">
+      <section style="display: none" id="view-page" class="flex min-h-[85vh] flex-col w-full h-full items-center justify-center space-y-2 transition-all ease-in-out">
         <!-- before:block before:z-[3] arter:block arter:z-[3] overflow-hidden before:content-[''] before:h-30% before:top-0 before:left-0 before:bg-gradient-to-b before:from-white before:dark:from-5 before:to-transparent after:content-[''] after:h-30% after:bottom-0 after:left-0 after:bg-gradient-to-t after:from-white after:dark:from-5 after:to-transparent -->
-        <div data-id="0" class="text-center h-[50vh] overflow-hidden px-5 duration-3000 flex flex-col gap-5" id="view-conteiner">
+        <div data-id="0" class="text-center h-[50vh] overflow-hidden px-5 duration-3000 flex flex-col gap-5 ease-in-out transition-all" id="view-conteiner">
           <h1 class="text-2xl text-5 dark:text-white" id="view-lyrics-display" data-id="0">hello world</h1>
           <!-- <p class="text-xm dark:text-gray-600" id="view-lyrics-time">00:00:00</p> -->
         </div>
@@ -486,10 +498,12 @@
     </div>
     <!-- .loading -->
 
+    <div class="blur-sm text-"></div>
     <div id="lrc">
       <!-- file input -->
       <input type="file" id="fileInput" accept="audio/*" hidden />
       <audio id="audioPlayer" hidden></audio>
+      <input type="file" id="coverFileInput" hidden />
       <input type="file" id="lrcFileInput" hidden />
       <input type="text" name="file_name" id="file_name" hidden />
       <input type="number" name="last-lyrics-set-index" id="last-lyrics-set-index" hidden />
@@ -498,7 +512,7 @@
 
     <!-- script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
-    <script type="module" src="script/main.js"></script>
+    <script type="module" src="script/main.ts"></script>
     <!-- script -->
   </body>
 </html>

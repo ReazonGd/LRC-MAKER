@@ -3,9 +3,9 @@ import { audioPlayer, forwardButton, playbackSpeedOption, pnpButton, rewindButto
 import "./audio-file.controller";
 import { audioEndHandler, audioPauseHandler, audioPlayHandler, forwardAudio, playAndPause, rewindAudio, setAudioSpeed } from "./audio.controller";
 
-document.querySelectorAll(`input[type="range"][progress]`).forEach(function (v) {
+document.querySelectorAll<HTMLInputElement>(`input[type="range"][progress]`).forEach(function (v) {
   v.addEventListener("input", function () {
-    this.parentElement.style = `--w: ${(this.value / this.max) * 100}%`;
+    v.parentElement!.style = `--w: ${(Number(v.value) / Number(v.max)) * 100}%`;
   });
 });
 
@@ -16,24 +16,24 @@ volumeRange.addEventListener("input", function () {
 // update the time slider
 audioPlayer.addEventListener("timeupdate", function () {
   if (isNaN(audioPlayer.currentTime)) return;
-  timeRange.value = audioPlayer.currentTime;
-  timeRange.parentElement.style = `--w: ${(timeRange.value / timeRange.max) * 100}%`;
+  timeRange.value = audioPlayer.currentTime.toString();
+  timeRange.parentElement!.style = `--w: ${(Number(timeRange.value) / Number(timeRange.max)) * 100}%`;
 
-  document.querySelector(".currentTime").innerHTML = timeFormat(audioPlayer.currentTime, true);
+  document.querySelector(".currentTime")!.innerHTML = timeFormat(audioPlayer.currentTime, true);
 });
 
 timeRange.addEventListener("input", function () {
-  audioPlayer.currentTime = this.value;
+  audioPlayer.currentTime = Number(this.value);
 });
 
 pnpButton.addEventListener("click", playAndPause);
 audioPlayer.addEventListener("ended", audioEndHandler);
 audioPlayer.addEventListener("pause", audioPauseHandler);
 audioPlayer.addEventListener("play", audioPlayHandler);
-rewindButton.addEventListener("click", rewindAudio);
-forwardButton.addEventListener("click", forwardAudio);
+rewindButton.addEventListener("click", () => rewindAudio());
+forwardButton.addEventListener("click", () => forwardAudio());
 playbackSpeedOption.addEventListener("click", function (event) {
-  const speedSelected = parseFloat(this.value);
+  const speedSelected = parseFloat(playbackSpeedOption.value);
 
   setAudioSpeed(speedSelected);
 });

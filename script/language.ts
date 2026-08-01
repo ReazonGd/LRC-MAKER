@@ -1,16 +1,16 @@
-import { createPopup, getLangText, popup_loading } from "./util";
-import { changeLanguageButton, languageListBox } from "./variable";
+import { getLangText, popup_loading } from "./util";
+import { changeLanguageButton, global, languageListBox } from "./variable";
 
-window.language_module = {};
-const languages_module_path = {
+global.language_module = {};
+const languages_module_path: { [key: string]: string } = {
   id: "/language/id.json",
   en: "/language/en.json", // translated by chatgpt
 };
 
 // load from "/laguage" folder
-function getLang_file(id) {
+function getLang_file(id: string) {
   return new Promise((resolve, reject) => {
-    let lang_path;
+    let lang_path: string;
 
     if (!(languages_module_path[id] && typeof id === "string")) lang_path = languages_module_path["id"];
     else lang_path = languages_module_path[id];
@@ -18,8 +18,8 @@ function getLang_file(id) {
     fetch(lang_path)
       .then(function (e) {
         e.json().then(function ({ data }) {
-          window.language_module = data;
-          resolve();
+          global.language_module = data;
+          resolve(null);
         });
       })
       .catch(reject);
@@ -27,23 +27,23 @@ function getLang_file(id) {
 }
 
 function loadLanguageFromPage() {
-  const language_id = languageListBox.dataset.value;
+  const language_id = languageListBox.dataset.value!;
   localStorage.setItem("lrc-lang", language_id);
   // console.log(language_id);
 
-  document.querySelectorAll(".lrc_text").forEach(function (element) {
+  document.querySelectorAll<HTMLElement>(".lrc_text").forEach(function (element) {
     const key = element.dataset.textkey;
-    if (key) return (element.innerHTML = getLangText(key.trim(), language_id));
+    if (key) return (element.innerHTML = getLangText(key.trim()));
 
     const new_key = element.innerHTML.trim();
     element.dataset.textkey = new_key;
-    element.innerHTML = getLangText(new_key, language_id);
+    element.innerHTML = getLangText(new_key);
   });
 
   updateLanguageListBox(language_id);
 }
 
-function updateLanguageListBox(id) {
+function updateLanguageListBox(id: string) {
   languageListBox.querySelectorAll("li").forEach(function (v) {
     const isSelected = v.dataset.name === id;
 
@@ -51,13 +51,12 @@ function updateLanguageListBox(id) {
     v.classList.toggle("dark:bg-1", isSelected);
   });
 
-  document.querySelector(".lrc-lang-display").innerHTML = id.toUpperCase();
+  document.querySelector(".lrc-lang-display")!.innerHTML = id.toUpperCase();
   popup_loading.remove("language-loading");
 }
 
-const savedLanguageSeleted = localStorage.getItem("lrc-lang");
-if (savedLanguageSeleted) languageListBox.dataset.value = savedLanguageSeleted;
-
+const savedLanguageSeleted = localStorage.getItem("lrc-lang") ?? "id";
+languageListBox.dataset.value = savedLanguageSeleted;
 getLang_file(savedLanguageSeleted).then(function () {
   loadLanguageFromPage();
 });
@@ -72,8 +71,8 @@ changeLanguageButton.addEventListener("click", function () {
 languageListBox.addEventListener("click", function (event) {
   popup_loading.add("language-loading");
 
-  if (Object.keys(window.language_module).length < 1) return;
-  const selectedLanguageID = event.target.dataset.name;
+  if (Object.keys(global.language_module).length < 1) return;
+  const selectedLanguageID = (event.target as HTMLElement).dataset.name;
   if (!selectedLanguageID) return;
 
   this.dataset.value = selectedLanguageID;

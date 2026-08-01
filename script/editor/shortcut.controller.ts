@@ -1,12 +1,14 @@
 import { forwardAudio, playAndPause, rewindAudio } from "../audio/audio.controller";
 import { gotoPage } from "../util";
-import { lastLyricsSetIndex, mainElement } from "../variable";
+import { global, lastLyricsSetIndex, mainElement } from "../variable";
 import { setNextLyrics } from "./editor.controller";
 
-document.addEventListener("keydown", function (event) {
-  if (mainElement.dataset.id <= 0) return;
+window.addEventListener("keydown", function (event) {
+  const id = Number(mainElement.dataset.id);
+
+  if (id  <= 0) return;
   const target = event.target;
-  if (["input", "textarea", "button"].includes(target.tagName.toLowerCase())) return;
+  if (!target || ["input", "textarea", "button"].includes((target as any).tagName.toLowerCase())) return;
   // console.log(target.tagName);
 
   switch (event.key) {
@@ -36,12 +38,12 @@ document.addEventListener("keydown", function (event) {
       gotoPage(4);
       break;
     case "p":
-      if (mainElement.dataset.id !== 2) return;
-      lastLyricsSetIndex.value = Math.max(0, +lastLyricsSetIndex.value - 1);
+      if (id !== 2) return;
+      lastLyricsSetIndex.value = Math.max(0, +lastLyricsSetIndex.value - 1).toString();
       break;
     case "n":
-      if (mainElement.dataset.id !== 2) return;
-      lastLyricsSetIndex.value = Math.min(window.lyrics.length, +lastLyricsSetIndex.value + 1);
+      if (id !== 2) return;
+      lastLyricsSetIndex.value = Math.min(global.lyrics.length, +lastLyricsSetIndex.value + 1).toString();
       break;
   }
 });
